@@ -38,8 +38,8 @@ class IntroActivity : BaseActivity() {
 //        flingAnimationY.start()
 //        flingAnimationX.start()
 
-        var moveAnimation = TranslateAnimation(0f, locationArray[0].toFloat(),
-                0f, locationArray[1].toFloat())
+        var moveAnimation = TranslateAnimation(Animation.RELATIVE_TO_SELF, 0f, Animation.RELATIVE_TO_SELF,
+                locationArray[0].toFloat(), Animation.RELATIVE_TO_SELF, 0f, Animation.RELATIVE_TO_SELF, locationArray[1].toFloat())
         moveAnimation.fillBefore = true
         moveAnimation.duration = 1000
         moveAnimation.interpolator = DecelerateInterpolator(2.0f)
