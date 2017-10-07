@@ -1,12 +1,11 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.0"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "ziku.app.hotshotk"
         minSdkVersion 16
@@ -29,6 +28,10 @@ kotlin {
     }
 }
 
+kapt {
+    generateStubs = true
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:26.1.0'
@@ -41,15 +44,19 @@ dependencies {
     compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:0.18"
 
     //Dagger
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
+    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+    compile "com.google.dagger:dagger:$daggerVersion"
     compile "com.google.dagger:dagger-android:$daggerVersion"
     compile "com.google.dagger:dagger-android-support:$daggerVersion"
-    annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
 
     //HTTP
     compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
     compile "com.squareup.okhttp3:okhttp:$okhttpVersion"
     compile "com.squareup.moshi:moshi:$moshiVersion"
     compile "com.squareup.moshi:moshi-kotlin:$moshiVersion"
+    compile "com.squareup.retrofit2:converter-moshi:$moshiConverterVersion"
 
     //RXJava
     compile "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"

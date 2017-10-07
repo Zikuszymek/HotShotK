@@ -5,7 +5,7 @@ import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 
 @Entity
-class Category {
+class ProductCategory {
 
     @PrimaryKey(autoGenerate = false)
     var idweb_page_category : Int = 0

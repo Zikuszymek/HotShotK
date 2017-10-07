@@ -5,8 +5,9 @@ import android.os.Bundle
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.async
 import ziku.app.hotshotk.R
+import ziku.app.hotshotk.activities.BaseActivity
 
-class HotShotMainActivity : AppCompatActivity() {
+class HotShotMainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

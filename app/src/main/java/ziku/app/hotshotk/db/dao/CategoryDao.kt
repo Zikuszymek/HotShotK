@@ -4,17 +4,17 @@ import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Delete
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.Query
-import ziku.app.hotshotk.db.entities.Category
+import ziku.app.hotshotk.db.entities.ProductCategory
 
 @Dao
 interface CategoryDao {
 
     @Query("SELECT * FROM category")
-    fun getAll() : List<Category>
+    fun getAll() : List<ProductCategory>
 
     @Insert
-    fun insertAll(vararg category : Category)
+    fun insertAll(vararg productCategory: ProductCategory)
 
     @Delete
-    fun delete(category : Category)
+    fun delete(productCategory: ProductCategory)
 }
