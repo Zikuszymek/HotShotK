@@ -1,18 +1,39 @@
 package ziku.app.hotshotk.activities.hotshotmain
 
-import android.support.v7.app.AppCompatActivity
+import android.arch.persistence.room.Room
 import android.os.Bundle
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.async
+import kotlinx.android.synthetic.main.activity_hot_shot_main.*
 import ziku.app.hotshotk.R
 import ziku.app.hotshotk.activities.BaseActivity
+import ziku.app.hotshotk.activities.BaseView
+import ziku.app.hotshotk.db.DatabaseHotShot
+import javax.inject.Inject
 
-class HotShotMainActivity : BaseActivity() {
+class HotShotMainActivity : BaseActivity(), BaseView {
+
+    @Inject
+    lateinit var presenter: HotShotMainPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hot_shot_main)
+        initViewComponents()
+    }
 
+    fun initViewComponents() {
+        swipe_refresher.setOnRefreshListener {
+            presenter.refreshOffer()
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        presenter.deattachView()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter.attachView(this)
     }
 
 }

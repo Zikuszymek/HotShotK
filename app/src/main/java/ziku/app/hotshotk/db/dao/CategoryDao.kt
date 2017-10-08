@@ -9,7 +9,7 @@ import ziku.app.hotshotk.db.entities.ProductCategory
 @Dao
 interface CategoryDao {
 
-    @Query("SELECT * FROM category")
+    @Query("SELECT * FROM productcategory")
     fun getAll() : List<ProductCategory>
 
     @Insert

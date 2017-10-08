@@ -17,8 +17,8 @@ class WebPage {
     @ColumnInfo(name = "url_web_page")
     var url_web_page : String  = ""
 
-    @ColumnInfo(name = "is_active_page")
-    var is_active_page : Boolean = false
+//    @ColumnInfo(name = "is_active_page")
+//    var is_active_page : Boolean = false
 
     @ColumnInfo(name = "web_page_category")
     var web_page_category : Int = 0

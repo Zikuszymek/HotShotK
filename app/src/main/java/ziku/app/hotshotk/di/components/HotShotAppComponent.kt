@@ -5,19 +5,14 @@ import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 import ziku.app.hotshotk.HotShotApplication
-import ziku.app.hotshotk.di.modules.ActivitiesModule
-import ziku.app.hotshotk.di.modules.AppModule
-import ziku.app.hotshotk.di.modules.DataBaseModule
-import ziku.app.hotshotk.di.modules.HttpModule
+import ziku.app.hotshotk.di.modules.*
 import javax.inject.Singleton
 
 @Singleton
 @Component(modules = arrayOf(
         AndroidSupportInjectionModule::class,
         ActivitiesModule::class,
-        AppModule::class,
-        DataBaseModule::class,
-        HttpModule::class
+        AppModule::class
 ))
  interface HotShotAppComponent : AndroidInjector<HotShotApplication> {
 

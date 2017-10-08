@@ -2,6 +2,7 @@ package ziku.app.hotshotk.di.modules
 
 import dagger.Module
 import dagger.Provides
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import ziku.app.hotshotk.http.RetrofitService
@@ -13,10 +14,11 @@ class HttpModule {
 
     @Provides
     @Singleton
-    fun provideRetrofitService(@Named("retrofitUrl") retrofitUrl : String) : Retrofit {
+    fun provideRetrofitService(@Named("retrofitUrl") retrofitUrl : String, okHttpClient: OkHttpClient) : Retrofit {
         return Retrofit.Builder()
                 .baseUrl(retrofitUrl)
                 .addConverterFactory(MoshiConverterFactory.create())
+                .client(okHttpClient)
                 .build()
     }
 
@@ -25,6 +27,13 @@ class HttpModule {
     fun provideHotShotSerrvice(retrofit: Retrofit) : RetrofitService.HotShotService{
         return retrofit.create(RetrofitService.HotShotService::class.java)
 
+    }
+
+    @Provides
+    @Singleton
+    fun privideOkHttp() : OkHttpClient {
+        val okHttpBuilder =  OkHttpClient.Builder()
+        return okHttpBuilder.build()
     }
 
     @Provides

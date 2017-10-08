@@ -10,7 +10,6 @@ import ziku.app.hotshotk.activities.BaseActivity
 import android.view.animation.Animation
 import ziku.app.hotshotk.activities.hotshotmain.HotShotMainActivity
 
-
 class IntroActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

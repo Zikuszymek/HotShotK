@@ -1,8 +1,12 @@
 package ziku.app.hotshotk.activities.hotshotmain
 
 import ziku.app.hotshotk.activities.BaseView
+import javax.inject.Inject
 
-class HotShotPresenterImp : HotShotMainPresenter {
+class HotShotPresenterImp @Inject constructor(hotShotDataManager: HotShotDataManager) : HotShotMainPresenter {
+    override fun refreshOffer() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     override var view: BaseView? = null
 
@@ -12,5 +16,9 @@ class HotShotPresenterImp : HotShotMainPresenter {
 
     override fun deattachView() {
         view = null
+    }
+
+    override fun synchronizeHotShots() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
