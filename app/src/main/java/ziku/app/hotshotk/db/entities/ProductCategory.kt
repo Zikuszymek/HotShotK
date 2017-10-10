@@ -8,10 +8,11 @@ import android.arch.persistence.room.PrimaryKey
 class ProductCategory {
 
     @PrimaryKey(autoGenerate = false)
-    var idweb_page_category : Int = 0
+    @ColumnInfo(name = "idweb_page_category")
+    var idweb_page_category: Int = 0
 
     @ColumnInfo(name = "category_type")
-    var category_type : String = ""
+    var category_type: String = ""
 
 }
 

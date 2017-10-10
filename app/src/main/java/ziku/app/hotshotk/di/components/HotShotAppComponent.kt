@@ -12,7 +12,9 @@ import javax.inject.Singleton
 @Component(modules = arrayOf(
         AndroidSupportInjectionModule::class,
         ActivitiesModule::class,
-        AppModule::class
+        AppModule::class,
+        HttpModule::class,
+        DataBaseModule::class
 ))
  interface HotShotAppComponent : AndroidInjector<HotShotApplication> {
 

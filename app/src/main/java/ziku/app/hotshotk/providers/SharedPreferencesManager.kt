@@ -8,7 +8,7 @@ class SharedPreferencesManager @Inject constructor(val sharedPreferences: Shared
     var sharedPreferencesEditor = sharedPreferences.edit()
 
     companion object {
-        val SHALL_SYNCHRONIZE_IN_BACKGROUND = "Synchronization"
+        val SHALL_SYNCHRONIZE_IN_BACKGROUND = "HotShotSynchronization"
         val SYNCHRONIZE_ONLY_WITH_WIFI = "onlyWifiSynchronization"
         val NOTIFY_USER_ABOUT_NEW= "notification"
         val VIBRATNION_IN_NOTIFICATION = "vibration"

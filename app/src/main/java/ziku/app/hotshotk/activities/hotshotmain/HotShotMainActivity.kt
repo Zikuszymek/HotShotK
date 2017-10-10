@@ -7,23 +7,25 @@ import ziku.app.hotshotk.R
 import ziku.app.hotshotk.activities.BaseActivity
 import ziku.app.hotshotk.activities.BaseView
 import ziku.app.hotshotk.db.DatabaseHotShot
+import ziku.app.hotshotk.fragments.FragmentViewPagerAdapter
 import javax.inject.Inject
 
-class HotShotMainActivity : BaseActivity(), BaseView {
+class HotShotMainActivity : BaseActivity() , BaseView{
 
     @Inject
-    lateinit var presenter: HotShotMainPresenter
+    lateinit var presenter : HotShotMainPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hot_shot_main)
         initViewComponents()
+
     }
 
-    fun initViewComponents() {
+    fun initViewComponents(){
+        view_pager.adapter = FragmentViewPagerAdapter(supportFragmentManager)
         swipe_refresher.setOnRefreshListener {
-            presenter.refreshOffer()
-        }
+            presenter.refreshOffer()}
     }
 
     override fun onPause() {
