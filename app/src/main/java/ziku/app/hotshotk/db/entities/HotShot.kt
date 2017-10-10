@@ -3,13 +3,15 @@ package ziku.app.hotshotk.db.entities
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
+import com.squareup.moshi.Json
 
 @Entity
-class HotShot{
+class HotShot : BaseEntity(){
 
     @PrimaryKey(autoGenerate = false)
+    @Json(name = "id_hot_shot")
     @ColumnInfo(name = "id_hot_shot")
-    var id_hot_shot : Int = 0
+    override var id : Int = 0
 
     @ColumnInfo(name = "product_name")
     var product_name : String = ""

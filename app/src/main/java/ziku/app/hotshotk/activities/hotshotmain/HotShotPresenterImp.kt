@@ -5,7 +5,6 @@ import javax.inject.Inject
 
 class HotShotPresenterImp @Inject constructor(hotShotDataManager: HotShotDataManager) : HotShotMainPresenter {
     override fun refreshOffer() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override var view: BaseView? = null

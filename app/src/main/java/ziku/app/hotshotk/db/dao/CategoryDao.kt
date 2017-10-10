@@ -1,6 +1,7 @@
 package ziku.app.hotshotk.db.dao
 
 import android.arch.persistence.room.*
+import ziku.app.hotshotk.db.entities.BaseEntity
 import ziku.app.hotshotk.db.entities.ProductCategory
 
 @Dao

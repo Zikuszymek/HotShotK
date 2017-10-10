@@ -7,11 +7,12 @@ import com.squareup.moshi.Json
 import ziku.app.hotshotk.moshi.IntToBoolean
 
 @Entity
-class WebPage {
+class WebPage : BaseEntity(){
 
     @PrimaryKey(autoGenerate = false)
+    @Json(name = "id_web_page")
     @ColumnInfo(name = "id_web_page")
-    var id_web_page	: Int = 0
+    override var id	: Int = 0
 
     @ColumnInfo(name = "name_web_page")
     var name_web_page : String = ""
