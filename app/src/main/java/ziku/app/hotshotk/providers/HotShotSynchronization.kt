@@ -4,9 +4,11 @@ import io.reactivex.Single
 import io.reactivex.functions.Function3
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
+import ziku.app.hotshotk.db.dao.BaseDAO
 import ziku.app.hotshotk.db.dao.CategoryDao
 import ziku.app.hotshotk.db.dao.HotShotDao
 import ziku.app.hotshotk.db.dao.WebPageDao
+import ziku.app.hotshotk.db.entities.BaseEntity
 import ziku.app.hotshotk.db.entities.HotShot
 import ziku.app.hotshotk.db.entities.ProductCategory
 import ziku.app.hotshotk.db.entities.WebPage
@@ -20,19 +22,23 @@ class HotShotSynchronization @Inject constructor(
         val webPageDao: WebPageDao
 ) {
 
-    fun invokeSynchronization(){
-        synchronizeAllData()
+    init {
+        synchronizeAllData(null)
     }
 
-    private fun synchronizeAllData() {
+    fun invokeSynchronization(synchronizationListener: SynchronizationListener) {
+        synchronizeAllData(synchronizationListener)
+    }
+
+    private fun synchronizeAllData(synchronizationListener: SynchronizationListener?) {
         Single.zip(
-                retrofitService.getProductCategories() ,
+                retrofitService.getProductCategories(),
                 retrofitService.getWebPages(),
                 retrofitService.getHotShots(),
                 Function3<List<ProductCategory>, List<WebPage>, List<HotShot>, Boolean> { categories, webPages, hotShots ->
-                    syncAllCategories(categories)
-                    syncAllWebPages(webPages)
-                    syncAllHotShots(hotShots)
+                    categories.forEach({insertOrUpdate(categoryDao, it)})
+                    webPages.forEach({insertOrUpdate(webPageDao, it)})
+                    hotShots.forEach({insertOrUpdate(hotshodDao, it)})
                     true
                 }
         ).subscribeOn(Schedulers.io())
@@ -40,44 +46,20 @@ class HotShotSynchronization @Inject constructor(
                 .subscribe(
                         {
                             Timber.d("Success")
+                            synchronizationListener?.onSynchronizationSuccess()
                         },
                         {
+                            synchronizationListener?.onSynchronizationError()
                             Timber.d("Error")
                         })
     }
 
-    fun syncAllCategories(categoriesList : List<ProductCategory>){
-        categoriesList.forEach({
-            val category = categoryDao.getObjectById(it.id)
-            if(category == null){
-                categoryDao.insertAll(it)
-            } else {
-                categoryDao.update(it)
-            }
-        })
+    private fun <T, V> insertOrUpdate(baseDAO: T, baseEntity: V) where T : BaseDAO<V>, V : BaseEntity {
+        val existingEntity = baseDAO.getObjectById(baseEntity.id)
+        if (existingEntity == null) {
+            baseDAO.insertOne(baseEntity)
+        } else {
+            baseDAO.updateOne(baseEntity)
+        }
     }
-
-    fun syncAllWebPages(webPageList : List<WebPage>){
-        webPageList.forEach({
-            val webPage = webPageDao.getObjectById(it.id)
-            if(webPage == null){
-                webPageDao.insertAll(it)
-            } else {
-                webPageDao.update(it)
-            }
-        })
-    }
-
-    fun syncAllHotShots(hotshotList: List<HotShot>){
-        hotshotList.forEach({
-            val hotshot = hotshodDao.getObjectById(it.id)
-            if(hotshot == null){
-                hotshodDao.insertAll(it)
-            } else {
-                hotshodDao.update(it)
-            }
-        })
-    }
-
-
 }

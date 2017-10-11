@@ -1,5 +1,5 @@
 package ziku.app.hotshotk.activities
 
-interface BaseView {
+interface BaseView <T> {
 
 }

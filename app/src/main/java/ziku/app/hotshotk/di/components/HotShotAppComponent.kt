@@ -6,12 +6,14 @@ import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 import ziku.app.hotshotk.HotShotApplication
 import ziku.app.hotshotk.di.modules.*
+import ziku.app.hotshotk.di.modules.fragments.FragmentModule
 import javax.inject.Singleton
 
 @Singleton
 @Component(modules = arrayOf(
         AndroidSupportInjectionModule::class,
         ActivitiesModule::class,
+        FragmentModule::class,
         AppModule::class,
         HttpModule::class,
         DataBaseModule::class

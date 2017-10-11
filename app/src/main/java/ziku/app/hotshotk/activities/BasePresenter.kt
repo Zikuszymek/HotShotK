@@ -1,7 +1,6 @@
 package ziku.app.hotshotk.activities
 
-interface BasePresenter {
-    var view : BaseView?
-    fun attachView(view : BaseView)
+interface BasePresenter<T> {
+    fun attachView(view : T)
     fun deattachView()
 }

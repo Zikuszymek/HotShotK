@@ -1,4 +1,4 @@
-package ziku.app.hotshotk.fragments
+package ziku.app.hotshotk.fragments.hotshot
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -15,22 +15,26 @@ class FragmentViewPagerAdapter(fragmentManager: FragmentManager) : FragmentState
     }
     override fun getItem(position: Int): Fragment {
         refreshAllFragments()
-        return addFragmentIfNew(position)
+        return addFragmentIfNew(position) ?: getNewHotShotFragment(position)
     }
 
     override fun getCount(): Int = NUMBER_OF_PAGES
 
-    private fun addFragmentIfNew(position: Int) : HotShotFragmentImp{
+    private fun addFragmentIfNew(position: Int) : HotShotFragmentImp? {
         if(fragmentImpList.containsKey(position)){
-            return fragmentImpList.getOrDefault(position, HotShotFragmentImp())
+            return fragmentImpList.get(position)
         } else {
-            val hotShotFragment = HotShotFragmentImp()
-            val bundle = Bundle()
-            bundle.putInt(CATEGORY_TYPE, position)
-            hotShotFragment.arguments = bundle
-            fragmentImpList.put(position, hotShotFragment)
-            return hotShotFragment
+            return getNewHotShotFragment(position)
         }
+    }
+
+    private fun getNewHotShotFragment(position: Int) : HotShotFragmentImp{
+        val hotShotFragment = HotShotFragmentImp()
+        val bundle = Bundle()
+        bundle.putInt(CATEGORY_TYPE, position)
+        hotShotFragment.arguments = bundle
+        fragmentImpList.put(position, hotShotFragment)
+        return hotShotFragment
     }
 
     fun refreshAllFragments(){

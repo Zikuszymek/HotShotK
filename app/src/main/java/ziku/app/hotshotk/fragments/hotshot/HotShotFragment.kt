@@ -1,4 +1,4 @@
-package ziku.app.hotshotk.fragments
+package ziku.app.hotshotk.fragments.hotshot
 
 
 interface HotShotFragment {

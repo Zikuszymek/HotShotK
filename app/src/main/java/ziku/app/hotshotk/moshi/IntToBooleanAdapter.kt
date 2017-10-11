@@ -12,7 +12,6 @@ class IntToBooleanAdapter {
 
     @ToJson
     fun toJson(@IntToBoolean value: Boolean): Int {
-        Timber.d("toJson")
         if (value) {
             return 1
         }
@@ -22,7 +21,6 @@ class IntToBooleanAdapter {
     @FromJson
     @IntToBoolean
     fun fromJson(value: Int): Boolean {
-        Timber.d("fromJson")
         if(value == 0){
             return false
         }

@@ -4,21 +4,32 @@ import android.arch.persistence.room.*
 import ziku.app.hotshotk.db.entities.HotShot
 
 @Dao
-interface HotShotDao{
+interface HotShotDao : BaseDAO<HotShot>{
 
     @Query("SELECT * FROM hotshot")
-    fun getAll() : List<HotShot>
+    override fun getAll() : List<HotShot>
 
     @Query("SELECT * FROM hotshot WHERE id_hot_shot = :id LIMIT 1")
-    fun getObjectById(id : Int) : HotShot?
+    override fun getObjectById(id : Int) : HotShot?
+
+    @Query("SELECT * FROM hotshot " +
+            "INNER JOIN webpage ON webpage.id_web_page = hotshot.web_page" +
+            " WHERE webpage.web_page_category = :categoryId")
+    fun getObjectByCategory(categoryId : Int) : List<HotShot>
 
     @Insert
-    fun insertAll(vararg hotShot: HotShot)
+    override fun insertAll(vararg hotShot: HotShot)
+
+    @Insert
+    override fun insertOne(baseEntity: HotShot)
 
     @Delete
-    fun delete(hotShot: HotShot)
+    override fun delete(hotShot: HotShot)
 
     @Update
-    fun update(vararg hotShot: HotShot)
+    override fun updateAll(vararg hotShot: HotShot)
+
+    @Update
+    override fun updateOne(hotShot: HotShot)
 
 }
