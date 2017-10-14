@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentStatePagerAdapter
 class FragmentViewPagerAdapter(fragmentManager: FragmentManager) : FragmentStatePagerAdapter(fragmentManager)  {
 
     val fragmentImpList: MutableMap<Int, HotShotFragmentImp> = mutableMapOf()
+    val pageTitles = arrayOf("Wszystko", "Elektornika", "Książki", "Różne", "Odzież")
 
     companion object {
         val CATEGORY_TYPE = "Category_type"
@@ -26,6 +27,10 @@ class FragmentViewPagerAdapter(fragmentManager: FragmentManager) : FragmentState
         } else {
             return getNewHotShotFragment(position)
         }
+    }
+
+    override fun getPageTitle(position: Int): CharSequence {
+        return pageTitles[position]
     }
 
     private fun getNewHotShotFragment(position: Int) : HotShotFragmentImp{

@@ -1,3 +1,22 @@
 <resources>
-    <string name="app_name">HotShotK</string>
+    <string name="app_name">HotShot</string>
+
+    <string name="settings">Ustawienia</string>
+    <string name="hot_shot">HotShot</string>
+
+    <string name="synchronize_in_background">Synchronizacja ofert w tle</string>
+    <string name="synchronize">Synchronizuj</string>
+    <string name="only_with_wi_fi">Tylko z Wi-Fi</string>
+    <string name="notifications">Powiadomienia</string>
+    <string name="inactive">Niekatywne</string>
+    <string name="active">Aktywne</string>
+    <string name="vibration">Wibracje</string>
+
+    <!-- SharedPreferences -->
+
+    <string name="pref_synchronize_in_background">synchronization</string>
+    <string name="pref_synchronize_only_with_wifi">onlyWifiSynchronization</string>
+    <string name="pref_notify_user_about_new">notification</string>
+    <string name="pref_vibration_in_notification">vibration</string>
+
 </resources>

@@ -3,7 +3,7 @@ package ziku.app.hotshotk.activities.hotshotmain
 import ziku.app.hotshotk.providers.SynchronizationListener
 import javax.inject.Inject
 
-class HotShotPresenterImp @Inject constructor(val hotShotDataManager: HotShotDataManager) : HotShotContractor.Presenter {
+class HotShotPresenter @Inject constructor(val hotShotDataManager: HotShotDataManager) : HotShotContractor.Presenter {
 
     var view: HotShotContractor.View? = null
 

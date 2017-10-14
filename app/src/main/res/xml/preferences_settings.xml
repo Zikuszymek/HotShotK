@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:layout="@layout/preferences_category"
+        android:title="@string/synchronize_in_background">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/pref_synchronize_in_background"
+            android:summary="@string/active"
+            android:title="@string/synchronize" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/pref_synchronize_only_with_wifi"
+            android:summary="@string/active"
+            android:title="@string/synchronize_in_background" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:layout="@layout/preferences_category"
+        android:title="@string/notifications">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/pref_notify_user_about_new"
+            android:summary="@string/active"
+            android:title="@string/notifications"/>
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/pref_vibration_in_notification"
+            android:summary="@string/active"
+            android:title="@string/vibration"/>
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -1,27 +1,36 @@
 package ziku.app.hotshotk.providers
 
+import android.content.Context
 import android.content.SharedPreferences
+import ziku.app.hotshotk.R
 import javax.inject.Inject
 
-class SharedPreferencesManager @Inject constructor(val sharedPreferences: SharedPreferences){
+class SharedPreferencesManager @Inject constructor(val sharedPreferences: SharedPreferences, val context: Context) {
 
-    var sharedPreferencesEditor = sharedPreferences.edit()
-
-    companion object {
-        val SHALL_SYNCHRONIZE_IN_BACKGROUND = "HotShotSynchronization"
-        val SYNCHRONIZE_ONLY_WITH_WIFI = "onlyWifiSynchronization"
-        val NOTIFY_USER_ABOUT_NEW= "notification"
-        val VIBRATNION_IN_NOTIFICATION = "vibration"
+    private val sharedPreferencesEditor: SharedPreferences.Editor by lazy {
+        sharedPreferences.edit()
     }
 
-    fun readBoleanValue(keyValue : String) : Boolean = sharedPreferences.getBoolean(keyValue, false)
+    var synchronizeInBackground: Boolean
+        get() { return readBooleanValue(context.getString(R.string.pref_synchronize_in_background), true)}
+        set(value) {putBooleanValue(context.getString(R.string.pref_synchronize_in_background), value)}
 
-    fun putBooleanValue(keyValue: String , booleanValue: Boolean) {
+    var synchronizeOnluWithWiFi: Boolean
+        get() { return readBooleanValue(context.getString(R.string.pref_synchronize_only_with_wifi), false)}
+        set(value) {putBooleanValue(context.getString(R.string.pref_synchronize_only_with_wifi), value)}
+
+    var notificationForUser: Boolean
+        get() { return readBooleanValue(context.getString(R.string.pref_notify_user_about_new), true)}
+        set(value) {putBooleanValue(context.getString(R.string.pref_notify_user_about_new), value)}
+
+    var vibrationInNotification: Boolean
+        get() { return readBooleanValue(context.getString(R.string.pref_vibration_in_notification), true)}
+        set(value) {putBooleanValue(context.getString(R.string.pref_vibration_in_notification), value)}
+
+    private fun readBooleanValue(keyValue: String, defaultValue : Boolean): Boolean = sharedPreferences.getBoolean(keyValue, defaultValue)
+
+    private fun putBooleanValue(keyValue: String, booleanValue: Boolean) {
         sharedPreferencesEditor.putBoolean(keyValue, booleanValue)
-        commit()
-    }
-
-    private fun commit(){
         sharedPreferencesEditor.commit()
     }
 

@@ -9,4 +9,6 @@
 
     <color name="darkerPrimary">#df570d</color>
     <color name="lighterPrimary">#fd9a43</color>
+
+    <color name="mainTextColor">@color/colorAccent</color>
 </resources>

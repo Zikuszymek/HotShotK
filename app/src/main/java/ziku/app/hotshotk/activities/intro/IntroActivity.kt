@@ -1,5 +1,6 @@
 package ziku.app.hotshotk.activities.intro
 
+import android.animation.AnimatorInflater
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -22,29 +23,9 @@ class IntroActivity : BaseActivity() {
         val locationArray = IntArray(2)
         shot_icon.getLocationOnScreen(locationArray)
 
-        val animationSet = AnimationSet(false)
-        animationSet.addAnimation(getTranslateAnimation())
-        animationSet.addAnimation(getAlphaAnimation())
+        val animationSet = AnimationUtils.loadAnimation(this, R.anim.intro_animation)
         animationSet.setAnimationListener(getAnimationListener())
         flame_icon.startAnimation(animationSet)
-    }
-
-    private fun getTranslateAnimation(): TranslateAnimation {
-        val moveAnimation = TranslateAnimation(-600f, 0f, 0f, 0f)
-        moveAnimation.fillBefore = true
-        moveAnimation.duration = 2000
-        moveAnimation.interpolator = DecelerateInterpolator(2.0f)
-        moveAnimation.fillAfter = true
-        return moveAnimation
-    }
-
-    private fun getAlphaAnimation(): AlphaAnimation {
-        val alphaAnimation = AlphaAnimation(0f, 100f)
-        alphaAnimation.interpolator = AccelerateInterpolator()
-        alphaAnimation.fillBefore = true
-        alphaAnimation.duration = 3000
-        alphaAnimation.fillAfter = true
-        return alphaAnimation
     }
 
     private fun getAnimationListener(): Animation.AnimationListener {

@@ -26,6 +26,7 @@ allprojects {
 }
 
 ext{
+    androidSupportVersion = '26.1.0'
     daggerVersion = '2.11'
     retrofitVersion = '2.3.0'
     okhttpVersion = '3.9.0'
