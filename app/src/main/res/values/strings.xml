@@ -3,10 +3,11 @@
 
     <string name="settings">Ustawienia</string>
     <string name="hot_shot">HotShot</string>
+    <string name="title_activity_details">Szczegóły</string>
 
     <string name="synchronize_in_background">Synchronizacja ofert w tle</string>
     <string name="synchronize">Synchronizuj</string>
-    <string name="only_with_wi_fi">Tylko z Wi-Fi</string>
+    <string name="synchronize_only_with_wi_fi">Tylko z Wi-Fi</string>
     <string name="notifications">Powiadomienia</string>
     <string name="inactive">Niekatywne</string>
     <string name="active">Aktywne</string>

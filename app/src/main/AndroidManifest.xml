@@ -29,15 +29,12 @@
         <activity android:name=".activities.hotshotmain.HotShotMainActivity" />
         <activity
             android:name=".activities.settings.SettingsActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:label="@string/settings"/>
         <activity
             android:name=".activities.details.DetailsActivity"
             android:label="@string/title_activity_details"
-            android:parentActivityName=".activities.BaseActivity"
-            android:theme="@style/AppThemeNoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="ziku.app.hotshotk.activities.BaseActivity" />
+            android:theme="@style/AppTheme">
         </activity>
     </application>
 

@@ -15,6 +15,7 @@ class SettingsActivity : BaseActivity(), SettingsContractor.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
         title = getString(R.string.settings)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
     }
 

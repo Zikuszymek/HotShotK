@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
-        android:layout="@layout/preferences_category"
-        android:title="@string/synchronize_in_background">
+        android:title="@string/synchronize_in_background"
+        android:layout="@layout/preferences_category">
 
         <SwitchPreference
             android:defaultValue="true"
@@ -14,7 +14,7 @@
             android:defaultValue="false"
             android:key="@string/pref_synchronize_only_with_wifi"
             android:summary="@string/active"
-            android:title="@string/synchronize_in_background" />
+            android:title="@string/synchronize_only_with_wi_fi" />
     </PreferenceCategory>
 
     <PreferenceCategory
