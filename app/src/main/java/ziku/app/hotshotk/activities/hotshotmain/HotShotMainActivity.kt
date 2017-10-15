@@ -6,7 +6,6 @@ import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import kotlinx.android.synthetic.main.activity_hot_shot_main.*
-import timber.log.Timber
 import ziku.app.hotshotk.R
 import ziku.app.hotshotk.activities.BaseActivity
 import ziku.app.hotshotk.activities.settings.SettingsActivity
@@ -33,7 +32,6 @@ class HotShotMainActivity : BaseActivity(), HotShotContractor.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hot_shot_main)
         initViewComponents()
-
     }
 
     fun initViewComponents() {
@@ -61,12 +59,10 @@ class HotShotMainActivity : BaseActivity(), HotShotContractor.View {
         animation.setAnimationListener(object : Animation.AnimationListener {
             override fun onAnimationStart(animation: Animation) {
                 animationRunning = true
-                resizeMenuView()
             }
 
             override fun onAnimationEnd(animation: Animation) {
                 animationRunning = false
-                resizeMenuView()
             }
 
             override fun onAnimationRepeat(animation: Animation) {}
@@ -74,33 +70,58 @@ class HotShotMainActivity : BaseActivity(), HotShotContractor.View {
         return animation
     }
 
-    fun resizeMenuView() {
-//        when (isMenuOpen) {
-//            false -> {
-//                menu_and_settings.layoutParams.height *= 3
-//                menu_and_settings.layoutParams.width *= 3
-//            }
-//            true -> {
-//                menu_and_settings.layoutParams.height /= 3
-//                menu_and_settings.layoutParams.width /= 3
-//            }
-//        }
-//        Timber.d("h: " + menu_and_settings.height)
-//        Timber.d("w: " + menu_and_settings.width)
-    }
-
     fun onMenuClickListener(view: View) {
         if (!animationRunning) {
             when (isMenuOpen) {
                 false -> {
+                    openMenuAnimation()
                     view.startAnimation(growMenuAnimation)
                     isMenuOpen = true
                 }
                 true -> {
+                    closeMenuAnimation()
                     view.startAnimation(shringMenuAnimation)
                     isMenuOpen = false
                 }
             }
+        }
+    }
+
+    fun openMenuAnimation(){
+        startMenuItemAnimation(play_store, true)
+        startMenuItemAnimation(share, true)
+        startMenuItemAnimation(info, true)
+        startMenuItemAnimation(settings, true)
+    }
+
+    fun closeMenuAnimation(){
+        startMenuItemAnimation(play_store, false)
+        startMenuItemAnimation(share, false)
+        startMenuItemAnimation(info, false)
+        startMenuItemAnimation(settings, false)
+    }
+
+    fun startMenuItemAnimation(view : View, showMenuItem: Boolean){
+        var animations : Animation
+        when(showMenuItem){
+            true -> animations = AnimationUtils.loadAnimation(this, R.anim.abc_fade_out)
+            false -> animations = AnimationUtils.loadAnimation(this, R.anim.abc_fade_in)
+        }
+        animations.setAnimationListener(getMenuAnimationListener(view, showMenuItem))
+        view.startAnimation(animations)
+    }
+
+    fun getMenuAnimationListener(view : View, showMenuItem : Boolean) : Animation.AnimationListener{
+        return object : Animation.AnimationListener{
+            override fun onAnimationStart(animation: Animation) {
+                if(showMenuItem) view.visibility = View.VISIBLE
+            }
+
+            override fun onAnimationEnd(animation: Animation) {
+                if(!showMenuItem) view.visibility = View.GONE
+            }
+
+            override fun onAnimationRepeat(animation: Animation) {}
         }
     }
 

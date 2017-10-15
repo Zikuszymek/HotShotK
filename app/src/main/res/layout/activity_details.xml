@@ -1,8 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/outer_border"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ziku.app.hotshotk.activities.details.DetailsActivity">
+    android:background="@color/grey_transparent">
 
-</android.support.design.widget.CoordinatorLayout>
+    <View
+        android:id="@+id/details_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:background="@color/white_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/details_image"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/details_description"
+        app:layout_constraintEnd_toEndOf="@+id/details_view"
+        app:layout_constraintStart_toStartOf="@+id/details_view"
+        app:layout_constraintTop_toTopOf="@+id/details_view"
+        app:srcCompat="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/details_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/details_new_price"
+        app:layout_constraintEnd_toEndOf="@+id/details_view"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/details_view" />
+
+    <TextView
+        android:id="@+id/details_new_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="16dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/button_go_to_web_page"
+        app:layout_constraintEnd_toStartOf="@+id/details_discount"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toEndOf="@+id/details_view"
+        app:layout_constraintStart_toStartOf="@+id/details_view" />
+
+    <TextView
+        android:id="@+id/details_old_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="TextView"
+        app:layout_constraintBaseline_toBaselineOf="@+id/details_discount"
+        app:layout_constraintEnd_toEndOf="@+id/details_view" />
+
+    <TextView
+        android:id="@+id/details_discount"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:text="TextView"
+        app:layout_constraintBaseline_toBaselineOf="@+id/details_new_price"
+        app:layout_constraintEnd_toStartOf="@+id/details_old_price"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/details_new_price" />
+
+    <Button
+        android:id="@+id/button_go_to_web_page"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/details_view"
+        app:layout_constraintEnd_toEndOf="@+id/details_view"
+        app:layout_constraintStart_toStartOf="@+id/details_view" />
+</android.support.constraint.ConstraintLayout>

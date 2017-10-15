@@ -11,6 +11,11 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="TransparentTheme" parent="AppThemeNoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
     <style name="TabTextApperience">
         <item name="android:textSize">10sp</item>
         <item name="android:gravity">center</item>
