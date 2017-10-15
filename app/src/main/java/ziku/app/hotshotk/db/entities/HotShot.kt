@@ -19,10 +19,10 @@ class HotShot() : BaseEntity(), Parcelable{
     var product_name : String = ""
 
     @ColumnInfo(name = "old_price")
-    var old_price : Double = 0.0
+    var old_price : Int = 0
 
     @ColumnInfo(name = "new_price")
-    var new_price : Double = 0.0
+    var new_price : Int = 0
 
     @ColumnInfo(name = "last_check")
     var last_check : String = ""
@@ -39,8 +39,8 @@ class HotShot() : BaseEntity(), Parcelable{
     constructor(parcel: Parcel) : this() {
         id = parcel.readInt()
         product_name = parcel.readString()
-        old_price = parcel.readDouble()
-        new_price = parcel.readDouble()
+        old_price = parcel.readInt()
+        new_price = parcel.readInt()
         last_check = parcel.readString()
         product_url = parcel.readString()
         img_url = parcel.readString()
@@ -50,8 +50,8 @@ class HotShot() : BaseEntity(), Parcelable{
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeInt(id)
         parcel.writeString(product_name)
-        parcel.writeDouble(old_price)
-        parcel.writeDouble(new_price)
+        parcel.writeInt(old_price)
+        parcel.writeInt(new_price)
         parcel.writeString(last_check)
         parcel.writeString(product_url)
         parcel.writeString(img_url)

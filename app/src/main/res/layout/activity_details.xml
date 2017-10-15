@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/outer_border"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/outer_border"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/grey_transparent">
 
     <View
         android:id="@+id/details_view"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_marginBottom="24dp"
         android:layout_marginEnd="24dp"
@@ -19,17 +19,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
 
     <ImageView
         android:id="@+id/details_image"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/details_description"
+        app:layout_constraintBottom_toTopOf="@+id/separator"
         app:layout_constraintEnd_toEndOf="@+id/details_view"
         app:layout_constraintStart_toStartOf="@+id/details_view"
         app:layout_constraintTop_toTopOf="@+id/details_view"
@@ -42,45 +43,59 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/details_new_price"
+        android:fontFamily="@font/comfortaa"
+        android:textAlignment="center"
+        android:textColor="@color/mainTextColor"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/separator_2"
         app:layout_constraintEnd_toEndOf="@+id/details_view"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/details_view" />
+        app:layout_constraintStart_toStartOf="@+id/details_view"
+        tools:text="TextView" />
 
     <TextView
         android:id="@+id/details_new_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="16dp"
         android:layout_marginStart="16dp"
-        android:text="TextView"
+        android:fontFamily="@font/comfortaa"
+        android:textColor="@color/mainTextColor"
+        android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/button_go_to_web_page"
-        app:layout_constraintEnd_toStartOf="@+id/details_discount"
+        app:layout_constraintEnd_toStartOf="@+id/details_old_price"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toEndOf="@+id/details_view"
-        app:layout_constraintStart_toStartOf="@+id/details_view" />
+        app:layout_constraintStart_toStartOf="@+id/details_view"
+        tools:text="TextView" />
 
     <TextView
         android:id="@+id/details_old_price"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="TextView"
-        app:layout_constraintBaseline_toBaselineOf="@+id/details_discount"
-        app:layout_constraintEnd_toEndOf="@+id/details_view" />
+        android:layout_height="0dp"
+        android:background="@drawable/line_shadow"
+        android:fontFamily="@font/comfortaa"
+        android:textColor="@color/grey_transparent"
+        android:textSize="20sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/details_new_price"
+        app:layout_constraintEnd_toStartOf="@+id/details_discount"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/details_new_price"
+        tools:text="TextView" />
 
     <TextView
         android:id="@+id/details_discount"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginEnd="8dp"
-        android:text="TextView"
-        app:layout_constraintBaseline_toBaselineOf="@+id/details_new_price"
-        app:layout_constraintEnd_toStartOf="@+id/details_old_price"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/details_new_price" />
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:fontFamily="@font/comfortaa_bold"
+        android:textColor="@color/mainTextColor"
+        android:textSize="16sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/details_old_price"
+        app:layout_constraintEnd_toEndOf="@+id/details_view"
+        tools:text="TextView" />
 
     <Button
         android:id="@+id/button_go_to_web_page"
@@ -89,8 +104,44 @@
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:text="Button"
+        android:background="@drawable/intro_gradient"
+        android:textColor="@color/textColorPrimary"
         app:layout_constraintBottom_toBottomOf="@+id/details_view"
         app:layout_constraintEnd_toEndOf="@+id/details_view"
-        app:layout_constraintStart_toStartOf="@+id/details_view" />
+        app:layout_constraintStart_toStartOf="@+id/details_view"
+        tools:text="Button" />
+
+    <View
+        android:id="@+id/separator"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/colorPrimary"
+        app:layout_constraintBottom_toTopOf="@+id/details_description"
+        app:layout_constraintEnd_toEndOf="@+id/button_go_to_web_page"
+        app:layout_constraintStart_toStartOf="@+id/button_go_to_web_page" />
+
+    <View
+        android:id="@+id/separator_2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/colorPrimary"
+        app:layout_constraintBottom_toTopOf="@+id/details_new_price"
+        app:layout_constraintEnd_toEndOf="@+id/button_go_to_web_page"
+        app:layout_constraintStart_toStartOf="@+id/button_go_to_web_page" />
+
+    <ImageView
+        android:id="@+id/arrow_image_view"
+        android:layout_width="38dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:elevation="12dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_shot"
+        app:layout_constraintBottom_toBottomOf="@+id/button_go_to_web_page"
+        app:layout_constraintEnd_toEndOf="@+id/button_go_to_web_page"
+        app:layout_constraintTop_toTopOf="@+id/button_go_to_web_page" />
+
 </android.support.constraint.ConstraintLayout>

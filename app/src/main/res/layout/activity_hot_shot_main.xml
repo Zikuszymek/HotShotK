@@ -12,9 +12,14 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         android:elevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:tabIndicatorColor="@color/colorPrimaryDark"
         app:tabTextAppearance="@style/TabTextApperience"
-        app:tabTextColor="@color/textColorPrimary" />
+        app:tabTextColor="@color/textColorPrimary"
+        app:tabMaxWidth="0dp"
+        app:tabGravity="fill"/>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresher"

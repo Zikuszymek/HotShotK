@@ -19,12 +19,15 @@ class HotShotMainActivity : BaseActivity(), HotShotContractor.View {
 
     private var isMenuOpen = false
     private var animationRunning = false
+    private val broadcastReceiver : HotShotReceiver by lazy {
+        HotShotReceiver(this::refreshViewPagers)
+    }
 
     private val growMenuAnimation: Animation by lazy {
         initMenuAnimations(R.anim.grow_animation)
     }
 
-    private val shringMenuAnimation: Animation by lazy {
+    private val shrinkMenuAnimation: Animation by lazy {
         initMenuAnimations(R.anim.shrink_animation)
     }
 
@@ -80,7 +83,7 @@ class HotShotMainActivity : BaseActivity(), HotShotContractor.View {
                 }
                 true -> {
                     closeMenuAnimation()
-                    view.startAnimation(shringMenuAnimation)
+                    view.startAnimation(shrinkMenuAnimation)
                     isMenuOpen = false
                 }
             }
@@ -128,11 +131,14 @@ class HotShotMainActivity : BaseActivity(), HotShotContractor.View {
     override fun onPause() {
         super.onPause()
         presenter.deattachView()
+        unregisterReceiver(broadcastReceiver)
+        registerReceiver(broadcastReceiver, HotShotReceiver.REFRESH_MACIN_ACTIVITY_INTENT_FILTER)
     }
 
     override fun onResume() {
         super.onResume()
         presenter.attachView(this)
+        registerReceiver(broadcastReceiver, HotShotReceiver.REFRESH_MACIN_ACTIVITY_INTENT_FILTER)
     }
 
     override fun refreshViewPagers() {
