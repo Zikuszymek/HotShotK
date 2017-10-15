@@ -43,6 +43,7 @@ class IntroActivity : BaseActivity() {
     }
 
     private fun startMainActivity() {
+        overridePendingTransition(0, R.anim.abc_fade_out)
         startActivity(Intent(this, HotShotMainActivity::class.java))
         finish()
     }

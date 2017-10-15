@@ -16,14 +16,14 @@ interface WebPageDao : BaseDAO<WebPage>{
     override fun insertOne(baseEntity: WebPage)
 
     @Insert
-    override fun insertAll(vararg webPage: WebPage)
+    override fun insertAll(vararg baseEntity: WebPage)
 
     @Delete
-    override fun delete(webpage: WebPage)
+    override fun delete(baseEntity: WebPage)
 
     @Update
-    override fun updateAll(vararg webpage: WebPage)
+    override fun updateAll(vararg baseEntity: WebPage)
 
     @Update
-    override fun updateOne(webpage: WebPage)
+    override fun updateOne(baseEntity: WebPage)
 }

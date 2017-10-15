@@ -1,6 +1,8 @@
 package ziku.app.hotshotk.activities.details
 
-class DetailsPresenter : DetailsContractor.Presenter{
+import javax.inject.Inject
+
+class DetailsPresenter @Inject constructor(val detailsDataManager: DetailsDataManager): DetailsContractor.Presenter{
 
     var view : DetailsContractor.View? = null
 

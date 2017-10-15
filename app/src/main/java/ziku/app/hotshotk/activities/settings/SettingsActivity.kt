@@ -1,6 +1,5 @@
 package ziku.app.hotshotk.activities.settings
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import ziku.app.hotshotk.R
 import ziku.app.hotshotk.activities.BaseActivity

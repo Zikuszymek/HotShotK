@@ -16,15 +16,15 @@ interface CategoryDao : BaseDAO<ProductCategory>{
     override fun insertOne(baseEntity: ProductCategory)
 
     @Insert()
-    override fun insertAll(vararg productCategory: ProductCategory)
+    override fun insertAll(vararg baseEntity: ProductCategory)
 
     @Delete
-    override fun delete(productCategory: ProductCategory)
+    override fun delete(baseEntity: ProductCategory)
 
     @Update
-    override fun updateAll(vararg productCategory: ProductCategory)
+    override fun updateAll(vararg baseEntity: ProductCategory)
 
     @Update
-    override fun updateOne(productCategory: ProductCategory)
+    override fun updateOne(baseEntity: ProductCategory)
 
 }

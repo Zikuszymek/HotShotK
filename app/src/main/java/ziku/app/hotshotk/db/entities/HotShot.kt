@@ -3,10 +3,12 @@ package ziku.app.hotshotk.db.entities
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
+import android.os.Parcel
+import android.os.Parcelable
 import com.squareup.moshi.Json
 
 @Entity
-class HotShot : BaseEntity(){
+class HotShot() : BaseEntity(), Parcelable{
 
     @PrimaryKey(autoGenerate = false)
     @Json(name = "id_hot_shot")
@@ -33,5 +35,41 @@ class HotShot : BaseEntity(){
 
     @ColumnInfo(name = "web_page")
     var web_page : Int = 0
+
+    constructor(parcel: Parcel) : this() {
+        id = parcel.readInt()
+        product_name = parcel.readString()
+        old_price = parcel.readDouble()
+        new_price = parcel.readDouble()
+        last_check = parcel.readString()
+        product_url = parcel.readString()
+        img_url = parcel.readString()
+        web_page = parcel.readInt()
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeInt(id)
+        parcel.writeString(product_name)
+        parcel.writeDouble(old_price)
+        parcel.writeDouble(new_price)
+        parcel.writeString(last_check)
+        parcel.writeString(product_url)
+        parcel.writeString(img_url)
+        parcel.writeInt(web_page)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<HotShot> {
+        override fun createFromParcel(parcel: Parcel): HotShot {
+            return HotShot(parcel)
+        }
+
+        override fun newArray(size: Int): Array<HotShot?> {
+            return arrayOfNulls(size)
+        }
+    }
 
 }

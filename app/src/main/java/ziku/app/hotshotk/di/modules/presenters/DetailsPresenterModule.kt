@@ -12,9 +12,9 @@ abstract class DetailsPresenterModule {
 
     @Binds
     @PerActivity
-    abstract fun binddetailsPresenter(detailsPresenter: DetailsPresenter) : DetailsContractor.Presenter
+    abstract fun bindDetailsPresenter(detailsPresenter: DetailsPresenter) : DetailsContractor.Presenter
 
     @Binds
     @PerActivity
-    abstract fun binddetailsDataManager(detailsDataManager: DetailsDataManager) : DetailsContractor.DataManager
+    abstract fun bindDetailsDataManager(detailsDataManager: DetailsDataManager) : DetailsContractor.DataManager
 }
