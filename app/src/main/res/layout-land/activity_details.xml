@@ -5,7 +5,9 @@
     android:id="@+id/outer_border"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey_transparent">
+    android:background="@color/grey_transparent"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="25dp">
 
     <View
         android:id="@+id/details_view"
@@ -27,11 +29,11 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/separator"
-        app:layout_constraintEnd_toEndOf="@+id/details_view"
+        app:layout_constraintBottom_toBottomOf="@+id/details_view"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="@+id/details_view"
         app:layout_constraintTop_toTopOf="@+id/details_view"
         app:srcCompat="@mipmap/ic_launcher" />
@@ -43,44 +45,43 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/comfortaa"
         android:textAlignment="center"
         android:textColor="@color/mainTextColor"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/separator_2"
+        app:layout_constraintBottom_toTopOf="@+id/separator"
         app:layout_constraintEnd_toEndOf="@+id/details_view"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/details_view"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="@+id/details_view"
         tools:text="TextView" />
 
     <TextView
         android:id="@+id/details_new_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginStart="16dp"
         android:fontFamily="@font/comfortaa"
         android:textColor="@color/mainTextColor"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/button_go_to_web_page"
-        app:layout_constraintEnd_toStartOf="@+id/details_old_price"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintStart_toEndOf="@+id/details_view"
-        app:layout_constraintStart_toStartOf="@+id/details_view"
+        app:layout_constraintBottom_toTopOf="@+id/details_discount"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
         tools:text="TextView" />
 
     <TextView
         android:id="@+id/details_old_price"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:background="@drawable/line_shadow"
         android:fontFamily="@font/comfortaa"
         android:textColor="@color/grey_transparent"
         android:textSize="20sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/details_new_price"
-        app:layout_constraintEnd_toStartOf="@+id/details_discount"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintEnd_toEndOf="@+id/details_view"
         app:layout_constraintStart_toEndOf="@+id/details_new_price"
         tools:text="TextView" />
 
@@ -88,13 +89,15 @@
         android:id="@+id/details_discount"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:fontFamily="@font/comfortaa_bold"
         android:textColor="@color/mainTextColor"
         android:textSize="16sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/details_old_price"
+        app:layout_constraintBottom_toTopOf="@+id/button_go_to_web_page"
         app:layout_constraintEnd_toEndOf="@+id/details_view"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
         tools:text="TextView" />
 
     <Button
@@ -103,26 +106,16 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:background="@drawable/intro_gradient"
         android:textColor="@color/textColorPrimary"
         app:layout_constraintBottom_toBottomOf="@+id/details_view"
         app:layout_constraintEnd_toEndOf="@+id/details_view"
-        app:layout_constraintStart_toStartOf="@+id/details_view"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
         tools:text="Button" />
 
     <View
         android:id="@+id/separator"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginBottom="8dp"
-        android:background="@color/colorPrimary"
-        app:layout_constraintBottom_toTopOf="@+id/details_description"
-        app:layout_constraintEnd_toEndOf="@+id/button_go_to_web_page"
-        app:layout_constraintStart_toStartOf="@+id/button_go_to_web_page" />
-
-    <View
-        android:id="@+id/separator_2"
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:layout_marginBottom="8dp"
@@ -137,12 +130,19 @@
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        android:elevation="12dp"
         android:layout_marginTop="8dp"
+        android:elevation="12dp"
         android:src="@drawable/ic_go_to_icon"
         android:tint="@color/white_color"
         app:layout_constraintBottom_toBottomOf="@+id/button_go_to_web_page"
         app:layout_constraintEnd_toEndOf="@+id/button_go_to_web_page"
         app:layout_constraintTop_toTopOf="@+id/button_go_to_web_page" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
 
 </android.support.constraint.ConstraintLayout>
