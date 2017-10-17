@@ -20,4 +20,6 @@
     <string name="pref_notify_user_about_new">notification</string>
     <string name="pref_vibration_in_notification">vibration</string>
 
+    <!-- Transitions -->
+    <string name="shared_image_transition">details_image</string>
 </resources>

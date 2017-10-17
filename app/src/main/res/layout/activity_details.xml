@@ -24,6 +24,7 @@
 
     <ImageView
         android:id="@+id/details_image"
+        android:transitionName="@string/shared_image_transition"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="16dp"

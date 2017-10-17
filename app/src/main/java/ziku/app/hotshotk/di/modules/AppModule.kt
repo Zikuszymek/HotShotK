@@ -6,8 +6,6 @@ import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
 import ziku.app.hotshotk.HotShotApplication
-import ziku.app.hotshotk.animations.MainActivityAnimations
-import ziku.app.hotshotk.di.scope.PerActivity
 import ziku.app.hotshotk.providers.PriceManager
 import javax.inject.Singleton
 

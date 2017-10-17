@@ -12,6 +12,7 @@
 
     <color name="mainTextColor">@color/colorAccent</color>
     <color name="grey_transparent">#90000000</color>
+    <color name="shadow_color">#90787878</color>
     <color name="grey_normal">#616161</color>
     <color name="white_color">#ffffff</color>
 
