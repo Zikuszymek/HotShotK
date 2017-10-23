@@ -5,7 +5,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
+import io.reactivex.disposables.CompositeDisposable
 import ziku.app.hotshotk.HotShotApplication
+import ziku.app.hotshotk.di.scope.PerActivity
 import ziku.app.hotshotk.providers.PriceManager
 import javax.inject.Singleton
 
@@ -22,4 +24,8 @@ class AppModule {
     @Provides
     @Singleton
     fun providePriceManager() : PriceManager = PriceManager()
+
+    @Provides
+    @PerActivity
+    fun provideDisposable() : CompositeDisposable = CompositeDisposable()
 }

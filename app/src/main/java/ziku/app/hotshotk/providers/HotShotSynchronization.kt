@@ -1,17 +1,11 @@
 package ziku.app.hotshotk.providers
 
-import io.reactivex.Single
-import io.reactivex.functions.Function3
-import io.reactivex.schedulers.Schedulers
-import timber.log.Timber
 import ziku.app.hotshotk.db.dao.BaseDAO
 import ziku.app.hotshotk.db.dao.CategoryDao
 import ziku.app.hotshotk.db.dao.HotShotDao
 import ziku.app.hotshotk.db.dao.WebPageDao
 import ziku.app.hotshotk.db.entities.BaseEntity
 import ziku.app.hotshotk.db.entities.HotShot
-import ziku.app.hotshotk.db.entities.ProductCategory
-import ziku.app.hotshotk.db.entities.WebPage
 import ziku.app.hotshotk.http.RetrofitService
 import javax.inject.Inject
 
@@ -19,39 +13,39 @@ class HotShotSynchronization @Inject constructor(
         val retrofitService: RetrofitService.HotShotService,
         val hotshodDao: HotShotDao,
         val categoryDao: CategoryDao,
-        val webPageDao: WebPageDao
+        val webPageDao: WebPageDao,
+        val notificationsManager: NotificationsManager
 ) {
 
-    init {
-        synchronizeAllData(null)
+    fun invokeSynchronization(backgroundSynchronization: Boolean) {
+        synchronizeAllData(backgroundSynchronization)
     }
 
-    fun invokeSynchronization(synchronizationListener: SynchronizationListener) {
-        synchronizeAllData(synchronizationListener)
+    private fun synchronizeAllData(backgroundSynchronization: Boolean) {
+        synchronizeCategories()
+        synchronizeWebPages()
+        val hotShotToNotification = synchronizeHotShots()
+        notifyUserAboutHotShot(hotShotToNotification, backgroundSynchronization)
     }
 
-    private fun synchronizeAllData(synchronizationListener: SynchronizationListener?) {
-        Single.zip(
-                retrofitService.getProductCategories(),
-                retrofitService.getWebPages(),
-                retrofitService.getHotShots(),
-                Function3<List<ProductCategory>, List<WebPage>, List<HotShot>, Boolean> { categories, webPages, hotShots ->
-                    categories.forEach({insertOrUpdate(categoryDao, it)})
-                    webPages.forEach({insertOrUpdate(webPageDao, it)})
-                    hotShots.forEach({insertOrUpdate(hotshodDao, it)})
-                    true
-                }
-        ).subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
-                .subscribe(
-                        {
-                            Timber.d("Success")
-                            synchronizationListener?.onSynchronizationSuccess()
-                        },
-                        {
-                            synchronizationListener?.onSynchronizationError()
-                            Timber.d("Error")
-                        })
+    private fun notifyUserAboutHotShot(hotShotToNotification: HotShot?, backgroundSynchronization: Boolean) {
+        if (backgroundSynchronization && hotShotToNotification != null)
+            notificationsManager.sendHotShotNotification(hotShotToNotification)
+    }
+
+    private fun synchronizeCategories() {
+        val productCategoriesList = retrofitService.getProductCategories().blockingGet()
+        productCategoriesList.forEach({ insertOrUpdate(categoryDao, it) })
+    }
+
+    private fun synchronizeWebPages() {
+        val webPagesList = retrofitService.getWebPages().blockingGet()
+        webPagesList.forEach({ insertOrUpdate(webPageDao, it) })
+    }
+
+    private fun synchronizeHotShots(): HotShot? {
+        val hotShotsList = retrofitService.getHotShots().blockingGet()
+        return handleHotShotUpdate(hotShotsList)
     }
 
     private fun <T, V> insertOrUpdate(baseDAO: T, baseEntity: V) where T : BaseDAO<V>, V : BaseEntity {
@@ -61,5 +55,18 @@ class HotShotSynchronization @Inject constructor(
         } else {
             baseDAO.updateOne(baseEntity)
         }
+    }
+
+    private fun handleHotShotUpdate(hotShotList: List<HotShot>): HotShot? {
+        val currentHotShotsList = hotshodDao.getAll()
+        var hotShotToNotification: HotShot? = null
+        hotShotList.forEach {
+            val hotShot = currentHotShotsList.firstOrNull { hotShot -> hotShot.id == it.id }
+            if (hotShot != null && hotShot.product_name != it.product_name && it.product_name != "-") {
+                hotShotToNotification = it
+            }
+        }
+        hotShotList.forEach({ insertOrUpdate(hotshodDao, it) })
+        return hotShotToNotification
     }
 }

@@ -69,7 +69,7 @@ dependencies {
     //RXJava
     compile "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
     compile "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
-    compile "io.reactivex.rxjava2:rxjava:2.x.y"
+    compile "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
 
     //Architecture Components
 

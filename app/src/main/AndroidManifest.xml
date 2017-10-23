@@ -40,6 +40,10 @@
             android:launchMode="singleTop">
         </activity>
 
+        <service android:name=".services.RefreshService">
+
+        </service>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
