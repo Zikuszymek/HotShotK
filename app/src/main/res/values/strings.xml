@@ -12,6 +12,9 @@
     <string name="inactive">Niekatywne</string>
     <string name="active">Aktywne</string>
     <string name="vibration">Wibracje</string>
+    <string name="new_notification">Nowa gorąca oferta:</string>
+    <string name="synchronization_error">Synchronizacja nie powiodła się</string>
+    <string name="refresh">Odśwież</string>
 
     <!-- SharedPreferences -->
 

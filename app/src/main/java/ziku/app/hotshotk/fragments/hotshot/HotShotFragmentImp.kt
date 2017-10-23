@@ -72,7 +72,7 @@ class HotShotFragmentImp : BaseFragment() {
             if (categoryId == 0) {
                 hotShotDao.getAll().filter { it.product_name != "-" }
             } else {
-                hotShotDao.getObjectByCategory(categoryId).filter { it.product_name != "-" }
+                hotShotDao.getObjectByCategory(categoryId).filter { it.product_name != "-" }.sortedBy { it.lastUpdate }
             }
         }
     }

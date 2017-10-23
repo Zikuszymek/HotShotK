@@ -11,7 +11,6 @@ class HotShotContractor {
 
     interface Presenter : BasePresenter<View> {
         fun synchronizeHotShots()
-        fun refreshOffer()
     }
 
     interface DataManager {

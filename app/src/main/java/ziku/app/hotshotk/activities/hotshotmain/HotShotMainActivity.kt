@@ -10,6 +10,8 @@ import ziku.app.hotshotk.activities.settings.SettingsActivity
 import ziku.app.hotshotk.animations.MainActivityAnimations
 import ziku.app.hotshotk.fragments.hotshot.FragmentViewPagerAdapter
 import javax.inject.Inject
+import android.support.design.widget.Snackbar
+
 
 class HotShotMainActivity : BaseActivity(), HotShotContractor.View {
 
@@ -27,6 +29,7 @@ class HotShotMainActivity : BaseActivity(), HotShotContractor.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hot_shot_main)
         initViewComponents()
+        initNavigationMenu()
         mainActivityAnimations.setView(main_content_activity)
     }
 
@@ -34,13 +37,18 @@ class HotShotMainActivity : BaseActivity(), HotShotContractor.View {
         blocking_background.setOnClickListener({ onMenuClickListener(it) })
         menu_and_settings.setOnClickListener { onMenuClickListener(it) }
         view_pager.adapter = FragmentViewPagerAdapter(supportFragmentManager)
-        swipe_refresher.setOnRefreshListener {
-            presenter.refreshOffer()
+        swipe_refresher.apply {
+            setOnRefreshListener { presenter.synchronizeHotShots() }
+            setColorSchemeColors(resources.getColor(R.color.windowBackground),
+                    resources.getColor(R.color.colorPrimaryDark), resources.getColor(R.color.windowBackground))
         }
         headers_tab_layout.setupWithViewPager(view_pager)
         for (i in 0 until headers_tab_layout.tabCount) {
             headers_tab_layout.getTabAt(i)?.icon = resources.getDrawable(R.drawable.ic_hotshotlogo)
         }
+    }
+
+    private fun initNavigationMenu() {
         play_store.setOnClickListener { startSettingsActivity(it) }
         share.setOnClickListener { startSettingsActivity(it) }
         info.setOnClickListener { startSettingsActivity(it) }
@@ -69,11 +77,18 @@ class HotShotMainActivity : BaseActivity(), HotShotContractor.View {
     }
 
     override fun refreshViewPagers() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        (view_pager.adapter as FragmentViewPagerAdapter).refreshAllFragments()
+        swipe_refresher.isRefreshing = false
     }
 
     override fun showErrorNotification() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        swipe_refresher.isRefreshing = false
+        val snackbar = Snackbar
+                .make(findViewById(android.R.id.content), getString(R.string.synchronization_error), Snackbar.LENGTH_LONG)
+        snackbar.apply {
+            setAction(getString(R.string.refresh), { presenter.synchronizeHotShots() })
+        }
+        snackbar.show()
     }
 
 }

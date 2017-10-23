@@ -8,6 +8,7 @@ import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
 import ziku.app.hotshotk.HotShotApplication
 import ziku.app.hotshotk.di.scope.PerActivity
+import ziku.app.hotshotk.providers.NotificationsManager
 import ziku.app.hotshotk.providers.PriceManager
 import javax.inject.Singleton
 
@@ -28,4 +29,5 @@ class AppModule {
     @Provides
     @PerActivity
     fun provideDisposable() : CompositeDisposable = CompositeDisposable()
+
 }

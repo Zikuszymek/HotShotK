@@ -22,20 +22,19 @@ class HotShotPresenter @Inject constructor(
         view = null
     }
 
-    override fun refreshOffer() {
+    override fun synchronizeHotShots() {
         disposable.add(
                 Single.fromCallable { hotShotDataManager.synchronizeHotShots() }
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                                 { view?.refreshViewPagers() },
-                                { view?.showErrorNotification() }
+                                {
+                                    it.printStackTrace()
+                                    view?.showErrorNotification()
+                                }
                         )
         )
-        hotShotDataManager.synchronizeHotShots()
     }
 
-    override fun synchronizeHotShots() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 }
