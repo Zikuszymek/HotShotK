@@ -10,20 +10,29 @@ import ziku.app.hotshotk.activities.details.DetailsActivity
 import ziku.app.hotshotk.db.entities.HotShot
 import android.support.v4.view.ViewCompat
 import android.support.v4.app.ActivityOptionsCompat
+import android.widget.LinearLayout
 import ziku.app.hotshotk.db.entities.WebPage
+import ziku.app.hotshotk.providers.PriceManager
 
-
-class HotShotViewHolder(var view: View) : RecyclerView.ViewHolder(view) {
+class HotShotViewHolder(var view: View, val priceManager: PriceManager) : RecyclerView.ViewHolder(view) {
 
     lateinit var hotShot: HotShot
 
-    fun bindData(hotShot: HotShot, webPage: WebPage?) {
+    fun bindData(hotShot: HotShot, webPage: WebPage?, position: Int) {
+        addPaddingTopIfFirst(position)
         this.hotShot = hotShot
+        val priceModel = priceManager.getPriceDataForView(hotShot)
         view.product_description.text = hotShot.product_name
-        view.old_price.text = hotShot.old_price.toString()
-        view.new_price.text = hotShot.new_price.toString()
-//        view.discount.text = String.format("- %s\%", calculateDiscount(hotShot.old_price.toInt(), hotShot.new_price.toInt()))
-        view.discount.text = "-19%"
+        if (priceModel.oldPrice != PriceManager.EMPTY_STRING && priceModel.discount != PriceManager.EMPTY_STRING) {
+            view.old_price.text = priceModel.oldPrice
+            view.discount.text = priceModel.discount
+            view.old_price.visibility = View.VISIBLE
+            view.discount.visibility = View.VISIBLE
+        } else {
+            view.old_price.visibility = View.GONE
+            view.discount.visibility = View.GONE
+        }
+        view.new_price.text = priceModel.newPrice
         loadImageFromGlide(hotShot)
         view.setOnClickListener(this::onViewHolderClickListener)
         view.web_page_name.text = webPage?.name_web_page
@@ -41,8 +50,11 @@ class HotShotViewHolder(var view: View) : RecyclerView.ViewHolder(view) {
         Glide.with(view).load(hotshot.img_url).into(view.product_image)
     }
 
-    fun calculateDiscount(oldPrice: Int, newPrice: Int): Int {
-        return (oldPrice - newPrice) / oldPrice * 100
+    private fun addPaddingTopIfFirst(position: Int) {
+        if (position == 0) {
+            var layoutParams = view.layoutParams as RecyclerView.LayoutParams
+            layoutParams.setMargins(layoutParams.leftMargin, layoutParams.leftMargin, layoutParams.rightMargin, layoutParams.bottomMargin)
+        }
     }
 
 }

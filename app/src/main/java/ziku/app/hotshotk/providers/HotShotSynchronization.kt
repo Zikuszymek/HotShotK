@@ -62,9 +62,12 @@ class HotShotSynchronization @Inject constructor(
         var hotShotToNotification: HotShot? = null
         hotShotList.forEach {
             val hotShot = currentHotShotsList.firstOrNull { hotShot -> hotShot.id == it.id }
-            if (hotShot != null && hotShot.product_name != it.product_name && it.product_name != "-") {
+            if (hotShot != null) it.lastUpdate = hotShot.lastUpdate
+            if (hotShot == null || hotShot.product_name != it.product_name && it.product_name != "-") {
                 it.lastUpdate = System.currentTimeMillis()
                 hotShotToNotification = it
+            } else {
+                it.lastUpdate = hotShot.lastUpdate
             }
         }
         hotShotList.forEach({ insertOrUpdate(hotshodDao, it) })

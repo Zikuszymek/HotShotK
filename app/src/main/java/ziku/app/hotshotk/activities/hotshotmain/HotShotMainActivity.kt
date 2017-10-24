@@ -21,10 +21,6 @@ class HotShotMainActivity : BaseActivity(), HotShotContractor.View {
     @Inject
     lateinit var mainActivityAnimations: MainActivityAnimations
 
-    private val broadcastReceiver: HotShotReceiver by lazy {
-        HotShotReceiver(this::refreshViewPagers)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hot_shot_main)
@@ -33,11 +29,22 @@ class HotShotMainActivity : BaseActivity(), HotShotContractor.View {
         mainActivityAnimations.setView(main_content_activity)
     }
 
+    override fun onPause() {
+        super.onPause()
+        presenter.deattachView()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter.attachView(this)
+    }
+
     fun initViewComponents() {
         blocking_background.setOnClickListener({ onMenuClickListener(it) })
         menu_and_settings.setOnClickListener { onMenuClickListener(it) }
         view_pager.adapter = FragmentViewPagerAdapter(supportFragmentManager)
         swipe_refresher.apply {
+            setDistanceToTriggerSync(500)
             setOnRefreshListener { presenter.synchronizeHotShots() }
             setColorSchemeColors(resources.getColor(R.color.windowBackground),
                     resources.getColor(R.color.colorPrimaryDark), resources.getColor(R.color.windowBackground))
@@ -49,9 +56,9 @@ class HotShotMainActivity : BaseActivity(), HotShotContractor.View {
     }
 
     private fun initNavigationMenu() {
-        play_store.setOnClickListener { startSettingsActivity(it) }
-        share.setOnClickListener { startSettingsActivity(it) }
-        info.setOnClickListener { startSettingsActivity(it) }
+        play_store.setOnClickListener { startPlayStoreActivity(it) }
+        share.setOnClickListener { startShareActivity(it) }
+        info.setOnClickListener { startInfoActivity(it) }
         settings.setOnClickListener { startSettingsActivity(it) }
     }
 
@@ -63,17 +70,16 @@ class HotShotMainActivity : BaseActivity(), HotShotContractor.View {
         startActivity(Intent(this, SettingsActivity::class.java))
     }
 
-    override fun onPause() {
-        super.onPause()
-        presenter.deattachView()
-        unregisterReceiver(broadcastReceiver)
-        registerReceiver(broadcastReceiver, HotShotReceiver.REFRESH_MACIN_ACTIVITY_INTENT_FILTER)
+    private fun startInfoActivity(view: View) {
+        startActivity(Intent(this, SettingsActivity::class.java))
     }
 
-    override fun onResume() {
-        super.onResume()
-        presenter.attachView(this)
-        registerReceiver(broadcastReceiver, HotShotReceiver.REFRESH_MACIN_ACTIVITY_INTENT_FILTER)
+    private fun startPlayStoreActivity(view: View) {
+        startActivity(Intent(this, SettingsActivity::class.java))
+    }
+
+    private fun startShareActivity(view: View) {
+        startActivity(Intent(this, SettingsActivity::class.java))
     }
 
     override fun refreshViewPagers() {

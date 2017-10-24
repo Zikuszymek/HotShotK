@@ -22,7 +22,7 @@
         app:tabMaxWidth="0dp"
         app:tabGravity="fill"/>
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <ziku.app.hotshotk.customviews.CustomSwipeRefreshLayout
         android:id="@+id/swipe_refresher"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -40,7 +40,7 @@
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="92dp" />
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </ziku.app.hotshotk.customviews.CustomSwipeRefreshLayout>
 
     <View
         android:id="@+id/blocking_background"

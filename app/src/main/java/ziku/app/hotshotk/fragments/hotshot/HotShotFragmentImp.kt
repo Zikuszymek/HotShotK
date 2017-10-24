@@ -1,7 +1,6 @@
 package ziku.app.hotshotk.fragments.hotshot
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +8,6 @@ import android.view.ViewGroup
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction
-import io.reactivex.functions.Function3
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_view_pager_promotion.*
 import ziku.app.hotshotk.R
@@ -17,6 +15,7 @@ import ziku.app.hotshotk.db.dao.HotShotDao
 import ziku.app.hotshotk.db.dao.WebPageDao
 import ziku.app.hotshotk.db.entities.HotShot
 import ziku.app.hotshotk.db.entities.WebPage
+import ziku.app.hotshotk.providers.PriceManager
 import javax.inject.Inject
 
 class HotShotFragmentImp : BaseFragment() {
@@ -30,7 +29,7 @@ class HotShotFragmentImp : BaseFragment() {
     lateinit var webPageDao: WebPageDao
 
     val hotshotAdapter: HotShotAdapter by lazy {
-        HotShotAdapter()
+        HotShotAdapter(PriceManager())
     }
 
     val categoryId by lazy { arguments.getInt(FragmentViewPagerAdapter.CATEGORY_TYPE, -1) }
@@ -70,7 +69,7 @@ class HotShotFragmentImp : BaseFragment() {
     fun getHotShots(): Single<List<HotShot>> {
         return Single.fromCallable {
             if (categoryId == 0) {
-                hotShotDao.getAll().filter { it.product_name != "-" }
+                hotShotDao.getAll().filter { it.product_name != "-" }.sortedBy { it.lastUpdate }
             } else {
                 hotShotDao.getObjectByCategory(categoryId).filter { it.product_name != "-" }.sortedBy { it.lastUpdate }
             }
