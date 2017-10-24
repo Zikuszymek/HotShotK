@@ -12,7 +12,6 @@ import ziku.app.hotshotk.fragments.hotshot.FragmentViewPagerAdapter
 import javax.inject.Inject
 import android.support.design.widget.Snackbar
 
-
 class HotShotMainActivity : BaseActivity(), HotShotContractor.View {
 
     @Inject
@@ -44,7 +43,6 @@ class HotShotMainActivity : BaseActivity(), HotShotContractor.View {
         menu_and_settings.setOnClickListener { onMenuClickListener(it) }
         view_pager.adapter = FragmentViewPagerAdapter(supportFragmentManager)
         swipe_refresher.apply {
-            setDistanceToTriggerSync(500)
             setOnRefreshListener { presenter.synchronizeHotShots() }
             setColorSchemeColors(resources.getColor(R.color.windowBackground),
                     resources.getColor(R.color.colorPrimaryDark), resources.getColor(R.color.windowBackground))

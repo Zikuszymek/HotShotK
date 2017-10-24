@@ -4,7 +4,9 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.preference.PreferenceFragment
 import android.preference.SwitchPreference
+import ziku.app.hotshotk.HotShotApplication
 import ziku.app.hotshotk.R
+import ziku.app.hotshotk.providers.JobShedulerManager
 
 class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -22,6 +24,10 @@ class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPrefere
 
     val vibrationsPreferences: SwitchPreference by lazy {
         preferenceScreen.findPreference(getString(R.string.pref_vibration_in_notification)) as SwitchPreference
+    }
+
+    val jobShedulerManager : JobShedulerManager by lazy {
+        (activity.applicationContext as HotShotApplication).jobShedulerManager
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,12 +52,21 @@ class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPrefere
                 disableConnectedPreference(notificationsPreferences, vibrationsPreferences)
             }
             getString(R.string.pref_synchronize_in_background) -> {
+                setBackgroundSynchronization(synchronizePreferences.isChecked)
                 switchTextDetails(synchronizePreferences)
                 disableConnectedPreference(synchronizePreferences, synchronizeOnlyWithWiFiPreferences)
             }
             getString(R.string.pref_vibration_in_notification) -> {
                 switchTextDetails(vibrationsPreferences)
             }
+        }
+    }
+
+    private fun setBackgroundSynchronization(enableBackgroundSynchronization : Boolean){
+        if(enableBackgroundSynchronization){
+            jobShedulerManager.setSynchronizationInBackground()
+        } else {
+            jobShedulerManager.cancelAlarmManagers()
         }
     }
 
