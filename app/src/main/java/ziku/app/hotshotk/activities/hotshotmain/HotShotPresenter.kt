@@ -4,11 +4,13 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import ziku.app.hotshotk.providers.JobShedulerManager
 import javax.inject.Inject
 
 class HotShotPresenter @Inject constructor(
         val hotShotDataManager: HotShotDataManager,
-        val disposable: CompositeDisposable
+        val disposable: CompositeDisposable,
+        val jobShedulerManager: JobShedulerManager
 ) : HotShotContractor.Presenter {
 
     var view: HotShotContractor.View? = null
@@ -20,6 +22,13 @@ class HotShotPresenter @Inject constructor(
     override fun deattachView() {
         disposable.clear()
         view = null
+    }
+
+    override fun setSynchronizationsAndAlarm() {
+        if(hotShotDataManager.shallSynchronize()){
+            jobShedulerManager.setSynchronizationAlarmInBackground()
+            synchronizeHotShots()
+        }
     }
 
     override fun synchronizeHotShots() {

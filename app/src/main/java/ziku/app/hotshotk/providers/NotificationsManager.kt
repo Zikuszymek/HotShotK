@@ -14,7 +14,8 @@ import javax.inject.Inject
 
 class NotificationsManager @Inject constructor(
         val context: Context,
-        val sharedPreferencesManager: SharedPreferencesManager
+        val sharedPreferencesManager: SharedPreferencesManager,
+        val systemInfoProvider: SystemInfoProvider
 ) {
 
     companion object {
@@ -28,6 +29,10 @@ class NotificationsManager @Inject constructor(
         }
     }
 
+    fun clearAllNotification(){
+        systemInfoProvider.notificationManager.cancelAll()
+    }
+
     private fun sendNotificationToUser(hotShot: HotShot) {
         val stackBuilder = TaskStackBuilder.create(context)
         stackBuilder.apply {
@@ -36,8 +41,7 @@ class NotificationsManager @Inject constructor(
         }
         val pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
         val notificationToSend = createNotificationContent(hotShot.product_name, pendingIntent)
-        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.notify(NOTIFICATION_ID, notificationToSend)
+        systemInfoProvider.notificationManager.notify(NOTIFICATION_ID, notificationToSend)
     }
 
     private fun createNotificationContent(productName: String, pendingIntent: PendingIntent): Notification {
@@ -48,10 +52,12 @@ class NotificationsManager @Inject constructor(
             setContentText(String.format("%s %s", context.getString(R.string.new_notification), productName))
             setContentIntent(pendingIntent)
             setAutoCancel(true)
+            setSmallIcon(R.drawable.ic_go_to_icon)
             if (sharedPreferencesManager.vibrationInNotification) {
                 setVibrate(longArrayOf(0, 150))
             }
         }
         return notificationBuilder.build()
     }
+
 }

@@ -14,7 +14,7 @@ abstract class ModelsModule {
     abstract fun bindSharedPreferencesManager(sharedPreferencesManager: SharedPreferencesManager): SharedPreferencesManager
 
     @Binds
-    @PerActivity
+    @Singleton
     abstract fun bindHotShotSynchronization(hotshotHotShotSynchronization: HotShotSynchronization): HotShotSynchronization
 
     @Binds

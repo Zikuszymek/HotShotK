@@ -11,14 +11,17 @@ import ziku.app.hotshotk.animations.MainActivityAnimations
 import ziku.app.hotshotk.fragments.hotshot.FragmentViewPagerAdapter
 import javax.inject.Inject
 import android.support.design.widget.Snackbar
+import ziku.app.hotshotk.providers.NotificationsManager
+import ziku.app.hotshotk.providers.SystemInfoProvider
 
 class HotShotMainActivity : BaseActivity(), HotShotContractor.View {
 
     @Inject
     lateinit var presenter: HotShotContractor.Presenter
-
     @Inject
     lateinit var mainActivityAnimations: MainActivityAnimations
+    @Inject
+    lateinit var notificationsManager: NotificationsManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,8 +38,11 @@ class HotShotMainActivity : BaseActivity(), HotShotContractor.View {
 
     override fun onResume() {
         super.onResume()
+        notificationsManager.clearAllNotification()
         presenter.attachView(this)
+        presenter.setSynchronizationsAndAlarm()
     }
+
 
     fun initViewComponents() {
         blocking_background.setOnClickListener({ onMenuClickListener(it) })

@@ -14,7 +14,9 @@ class HotShotSynchronization @Inject constructor(
         val hotshodDao: HotShotDao,
         val categoryDao: CategoryDao,
         val webPageDao: WebPageDao,
-        val notificationsManager: NotificationsManager
+        val notificationsManager: NotificationsManager,
+        val sharedPreferencesManager: SharedPreferencesManager,
+        val infoProvider: SystemInfoProvider
 ) {
 
     fun invokeSynchronization(backgroundSynchronization: Boolean) {
@@ -22,10 +24,18 @@ class HotShotSynchronization @Inject constructor(
     }
 
     private fun synchronizeAllData(backgroundSynchronization: Boolean) {
+        sharedPreferencesManager.lastSynchronization = System.currentTimeMillis()
         synchronizeCategories()
         synchronizeWebPages()
         val hotShotToNotification = synchronizeHotShots()
         notifyUserAboutHotShot(hotShotToNotification, backgroundSynchronization)
+        releseLocksIfInBackground(backgroundSynchronization)
+    }
+
+    private fun releseLocksIfInBackground(backgroundSynchronization: Boolean){
+        if(backgroundSynchronization){
+            infoProvider.releaseLocks()
+        }
     }
 
     private fun notifyUserAboutHotShot(hotShotToNotification: HotShot?, backgroundSynchronization: Boolean) {
@@ -61,6 +71,8 @@ class HotShotSynchronization @Inject constructor(
         val currentHotShotsList = hotshodDao.getAll()
         var hotShotToNotification: HotShot? = null
         hotShotList.forEach {
+            //ToDo remove this line below
+            hotShotToNotification = it
             val hotShot = currentHotShotsList.firstOrNull { hotShot -> hotShot.id == it.id }
             if (hotShot != null) it.lastUpdate = hotShot.lastUpdate
             if (hotShot == null || hotShot.product_name != it.product_name && it.product_name != "-") {

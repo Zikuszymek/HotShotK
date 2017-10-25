@@ -32,6 +32,7 @@ class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPrefere
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        preferenceManager.sharedPreferencesName = getString(R.string.hot_shot)
         addPreferencesFromResource(R.xml.preferences_settings)
     }
 
@@ -64,7 +65,7 @@ class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPrefere
 
     private fun setBackgroundSynchronization(enableBackgroundSynchronization : Boolean){
         if(enableBackgroundSynchronization){
-            jobShedulerManager.setSynchronizationInBackground()
+            jobShedulerManager.setSynchronizationAlarmInBackground()
         } else {
             jobShedulerManager.cancelAlarmManagers()
         }

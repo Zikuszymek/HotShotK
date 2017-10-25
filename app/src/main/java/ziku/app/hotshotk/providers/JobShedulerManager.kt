@@ -9,6 +9,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import timber.log.Timber
 import ziku.app.hotshotk.receivers.SynchronizationReceiver
 import ziku.app.hotshotk.services.RefreshService
 import java.util.*
@@ -23,8 +24,8 @@ class JobShedulerManager @Inject constructor(
     companion object {
         const val REQUEST_CODE = 1234
         const val ONE_MINUTE = 60 * 1000
-        const val TIMER = 4 * ONE_MINUTE
-        const val PERIOD = 60 * ONE_MINUTE
+        const val TIMER = 60 * ONE_MINUTE
+        const val PERIOD = 6 * ONE_MINUTE
     }
 
     private val alarmPendingIntent by lazy {
@@ -32,34 +33,33 @@ class JobShedulerManager @Inject constructor(
         PendingIntent.getBroadcast(context, REQUEST_CODE, intent, 0)
     }
 
-    fun setSynchronizationInBackground() {
+    fun setSynchronizationAlarmInBackground() {
         menageSynchronizationFromAPI()
     }
 
     private fun menageSynchronizationFromAPI() {
-        if (sharedPreferencesManager.synchronizeInBackground) {
-            if (sharedPreferencesManager.synchronizeOnluWithWiFi) {
-                if (!systemInfoProvider.isWifiEnabled()) {
-                    return
-                }
-            }
-            setServiceByApiVersion()
+        if (!sharedPreferencesManager.synchronizeInBackground) {
+            return
         }
+        setServiceByApiVersion()
     }
 
     private fun setServiceByApiVersion() {
+        Timber.d("Set alarm manager")
+        val properStartTime = getProperStartTime()
         cancelAlarmManagers()
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            systemInfoProvider.alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, getProperStartTime(), alarmPendingIntent)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            systemInfoProvider.alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, properStartTime, alarmPendingIntent)
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            systemInfoProvider.alarmManager.setExact(AlarmManager.RTC_WAKEUP, getProperStartTime(), alarmPendingIntent)
+            systemInfoProvider.alarmManager.setExact(AlarmManager.RTC_WAKEUP, properStartTime, alarmPendingIntent)
         } else {
-            systemInfoProvider.alarmManager.set(AlarmManager.RTC_WAKEUP, getProperStartTime(), alarmPendingIntent)
+            systemInfoProvider.alarmManager.set(AlarmManager.RTC_WAKEUP, properStartTime, alarmPendingIntent)
         }
     }
 
     private fun getProperStartTime(): Long {
         return (System.currentTimeMillis() - (Calendar.getInstance().get(Calendar.MINUTE) * ONE_MINUTE)) + PERIOD + TIMER
+//        return System.currentTimeMillis() + (ONE_MINUTE * 5)
     }
 
     @TargetApi(23)

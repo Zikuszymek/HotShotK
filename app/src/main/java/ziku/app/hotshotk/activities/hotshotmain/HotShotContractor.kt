@@ -11,9 +11,11 @@ class HotShotContractor {
 
     interface Presenter : BasePresenter<View> {
         fun synchronizeHotShots()
+        fun setSynchronizationsAndAlarm()
     }
 
     interface DataManager {
         fun synchronizeHotShots()
+        fun shallSynchronize(): Boolean
     }
 }

@@ -2,11 +2,26 @@ package ziku.app.hotshotk.receivers
 
 import android.content.Context
 import android.content.Intent
-import android.support.v4.content.WakefulBroadcastReceiver
+import dagger.android.DaggerBroadcastReceiver
+import timber.log.Timber
+import ziku.app.hotshotk.providers.JobShedulerManager
+import ziku.app.hotshotk.providers.SystemInfoProvider
+import ziku.app.hotshotk.services.RefreshService
+import javax.inject.Inject
 
-class SynchronizationReceiver : WakefulBroadcastReceiver(){
+class SynchronizationReceiver : DaggerBroadcastReceiver(){
+
+    @Inject
+    lateinit var jobSchedulerManager: JobShedulerManager
+    @Inject
+    lateinit var systemInfoProvider: SystemInfoProvider
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        super.onReceive(context, intent)
+        systemInfoProvider.acuireLocks()
+        Timber.d("Receiver invoked")
+        val synchronizationService = Intent(context, RefreshService::class.java)
+        context?.startService(synchronizationService)
+        jobSchedulerManager.setSynchronizationAlarmInBackground()
     }
 }

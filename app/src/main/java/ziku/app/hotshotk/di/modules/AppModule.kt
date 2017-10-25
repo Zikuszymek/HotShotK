@@ -7,6 +7,7 @@ import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
 import ziku.app.hotshotk.HotShotApplication
+import ziku.app.hotshotk.R
 import ziku.app.hotshotk.providers.PriceManager
 import javax.inject.Singleton
 
@@ -18,7 +19,7 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideSharedPrefs(context: Context) : SharedPreferences = context.getSharedPreferences("HotShot", Activity.MODE_PRIVATE)
+    fun provideSharedPrefs(context: Context) : SharedPreferences = context.getSharedPreferences(context.getString(R.string.hot_shot), Activity.MODE_PRIVATE)
 
     @Provides
     @Singleton
