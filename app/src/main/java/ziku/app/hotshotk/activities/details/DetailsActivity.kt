@@ -69,7 +69,7 @@ class DetailsActivity : BaseActivity(), DetailsContractor.View {
 
 
     fun finishActivity(view : View){
-        finish()
+        onBackPressed()
     }
 
     fun goToProductUrl(view : View){

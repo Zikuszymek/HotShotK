@@ -1,9 +1,17 @@
 package ziku.app.hotshotk.activities.hotshotmain
 
-import ziku.app.hotshotk.providers.SynchronizationListener
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import ziku.app.hotshotk.providers.JobShedulerManager
 import javax.inject.Inject
 
-class HotShotPresenter @Inject constructor(val hotShotDataManager: HotShotDataManager) : HotShotContractor.Presenter {
+class HotShotPresenter @Inject constructor(
+        val hotShotDataManager: HotShotDataManager,
+        val disposable: CompositeDisposable,
+        val jobShedulerManager: JobShedulerManager
+) : HotShotContractor.Presenter {
 
     var view: HotShotContractor.View? = null
 
@@ -12,27 +20,30 @@ class HotShotPresenter @Inject constructor(val hotShotDataManager: HotShotDataMa
     }
 
     override fun deattachView() {
+        disposable.clear()
         view = null
     }
 
-    override fun refreshOffer() {
-//        hotShotDataManager.synchronizeHotShots(getSynchronizationListener())
+    override fun setSynchronizationsAndAlarm() {
+        if(hotShotDataManager.shallSynchronize()){
+            jobShedulerManager.setSynchronizationAlarmInBackground()
+            synchronizeHotShots()
+        }
     }
 
     override fun synchronizeHotShots() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        disposable.add(
+                Single.fromCallable { hotShotDataManager.synchronizeHotShots() }
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                { view?.refreshViewPagers() },
+                                {
+                                    it.printStackTrace()
+                                    view?.showErrorNotification()
+                                }
+                        )
+        )
     }
 
-    fun getSynchronizationListener() : SynchronizationListener{
-        return object : SynchronizationListener{
-            override fun onSynchronizationSuccess() {
-                view?.refreshViewPagers()
-            }
-
-            override fun onSynchronizationError() {
-                view?.showErrorNotification()
-            }
-
-        }
-    }
 }

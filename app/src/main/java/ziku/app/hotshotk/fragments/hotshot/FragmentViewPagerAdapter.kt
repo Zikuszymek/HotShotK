@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 
-class FragmentViewPagerAdapter(fragmentManager: FragmentManager) : FragmentStatePagerAdapter(fragmentManager)  {
+class FragmentViewPagerAdapter(fragmentManager: FragmentManager) : FragmentStatePagerAdapter(fragmentManager) {
 
     val fragmentImpList: MutableMap<Int, HotShotFragmentImp> = mutableMapOf()
     val pageTitles = arrayOf("Wszystko", "Elektornika", "Książki", "Różne", "Odzież")
@@ -14,6 +14,7 @@ class FragmentViewPagerAdapter(fragmentManager: FragmentManager) : FragmentState
         val CATEGORY_TYPE = "Category_type"
         val NUMBER_OF_PAGES = 5
     }
+
     override fun getItem(position: Int): Fragment {
         refreshAllFragments()
         return addFragmentIfNew(position) ?: getNewHotShotFragment(position)
@@ -21,8 +22,8 @@ class FragmentViewPagerAdapter(fragmentManager: FragmentManager) : FragmentState
 
     override fun getCount(): Int = NUMBER_OF_PAGES
 
-    private fun addFragmentIfNew(position: Int) : HotShotFragmentImp? {
-        if(fragmentImpList.containsKey(position)){
+    private fun addFragmentIfNew(position: Int): HotShotFragmentImp? {
+        if (fragmentImpList.containsKey(position)) {
             return fragmentImpList.get(position)
         } else {
             return getNewHotShotFragment(position)
@@ -33,7 +34,7 @@ class FragmentViewPagerAdapter(fragmentManager: FragmentManager) : FragmentState
         return pageTitles[position]
     }
 
-    private fun getNewHotShotFragment(position: Int) : HotShotFragmentImp{
+    private fun getNewHotShotFragment(position: Int): HotShotFragmentImp {
         val hotShotFragment = HotShotFragmentImp()
         val bundle = Bundle()
         bundle.putInt(CATEGORY_TYPE, position)
@@ -42,7 +43,7 @@ class FragmentViewPagerAdapter(fragmentManager: FragmentManager) : FragmentState
         return hotShotFragment
     }
 
-    fun refreshAllFragments(){
-
+    fun refreshAllFragments() {
+        fragmentImpList.forEach { it.value.refreshList() }
     }
 }

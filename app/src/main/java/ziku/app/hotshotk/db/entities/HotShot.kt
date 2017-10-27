@@ -24,8 +24,7 @@ class HotShot() : BaseEntity(), Parcelable{
     @ColumnInfo(name = "new_price")
     var new_price : Int = 0
 
-    @ColumnInfo(name = "last_check")
-    var last_check : String = ""
+    var lastUpdate : Long = 0
 
     @ColumnInfo(name = "product_url")
     var product_url : String = ""
@@ -41,7 +40,7 @@ class HotShot() : BaseEntity(), Parcelable{
         product_name = parcel.readString()
         old_price = parcel.readInt()
         new_price = parcel.readInt()
-        last_check = parcel.readString()
+        lastUpdate = parcel.readLong()
         product_url = parcel.readString()
         img_url = parcel.readString()
         web_page = parcel.readInt()
@@ -52,7 +51,7 @@ class HotShot() : BaseEntity(), Parcelable{
         parcel.writeString(product_name)
         parcel.writeInt(old_price)
         parcel.writeInt(new_price)
-        parcel.writeString(last_check)
+        parcel.writeLong(lastUpdate)
         parcel.writeString(product_url)
         parcel.writeString(img_url)
         parcel.writeInt(web_page)

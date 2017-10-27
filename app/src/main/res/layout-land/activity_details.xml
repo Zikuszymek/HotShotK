@@ -26,6 +26,7 @@
 
     <ImageView
         android:id="@+id/details_image"
+        android:transitionName="@string/shared_image_transition"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="16dp"
@@ -62,11 +63,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:fontFamily="@font/comfortaa"
         android:textColor="@color/mainTextColor"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/details_discount"
+        app:layout_constraintEnd_toStartOf="@+id/details_old_price"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         tools:text="TextView" />
 
@@ -75,13 +79,13 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:background="@drawable/line_shadow"
         android:fontFamily="@font/comfortaa"
         android:textColor="@color/grey_transparent"
         android:textSize="20sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/details_new_price"
         app:layout_constraintEnd_toEndOf="@+id/details_view"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/details_new_price"
         tools:text="TextView" />
 

@@ -11,6 +11,10 @@ class SharedPreferencesManager @Inject constructor(val sharedPreferences: Shared
         sharedPreferences.edit()
     }
 
+    var lastSynchronization: Long
+        get() { return readLongValue(context.getString(R.string.pref_last_synchronization_time), 0)}
+        set(value) {putLongValue(context.getString(R.string.pref_last_synchronization_time), value)}
+
     var synchronizeInBackground: Boolean
         get() { return readBooleanValue(context.getString(R.string.pref_synchronize_in_background), true)}
         set(value) {putBooleanValue(context.getString(R.string.pref_synchronize_in_background), value)}
@@ -31,6 +35,13 @@ class SharedPreferencesManager @Inject constructor(val sharedPreferences: Shared
 
     private fun putBooleanValue(keyValue: String, booleanValue: Boolean) {
         sharedPreferencesEditor.putBoolean(keyValue, booleanValue)
+        sharedPreferencesEditor.commit()
+    }
+
+    private fun readLongValue(keyValue: String, defaultValue : Long): Long = sharedPreferences.getLong(keyValue, defaultValue)
+
+    private fun putLongValue(keyValue: String, longValue: Long) {
+        sharedPreferencesEditor.putLong(keyValue, longValue)
         sharedPreferencesEditor.commit()
     }
 

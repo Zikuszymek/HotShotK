@@ -3,150 +3,102 @@ package ziku.app.hotshotk.activities.hotshotmain
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import kotlinx.android.synthetic.main.activity_hot_shot_main.*
 import ziku.app.hotshotk.R
 import ziku.app.hotshotk.activities.BaseActivity
 import ziku.app.hotshotk.activities.settings.SettingsActivity
+import ziku.app.hotshotk.animations.MainActivityAnimations
 import ziku.app.hotshotk.fragments.hotshot.FragmentViewPagerAdapter
 import javax.inject.Inject
+import android.support.design.widget.Snackbar
+import ziku.app.hotshotk.providers.NotificationsManager
+import ziku.app.hotshotk.providers.SystemInfoProvider
 
 class HotShotMainActivity : BaseActivity(), HotShotContractor.View {
 
     @Inject
     lateinit var presenter: HotShotContractor.Presenter
-
-    private var isMenuOpen = false
-    private var animationRunning = false
-    private val broadcastReceiver : HotShotReceiver by lazy {
-        HotShotReceiver(this::refreshViewPagers)
-    }
-
-    private val growMenuAnimation: Animation by lazy {
-        initMenuAnimations(R.anim.grow_animation)
-    }
-
-    private val shrinkMenuAnimation: Animation by lazy {
-        initMenuAnimations(R.anim.shrink_animation)
-    }
+    @Inject
+    lateinit var mainActivityAnimations: MainActivityAnimations
+    @Inject
+    lateinit var notificationsManager: NotificationsManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hot_shot_main)
         initViewComponents()
-    }
-
-    fun initViewComponents() {
-        menu_and_settings.setOnClickListener { onMenuClickListener(it) }
-        view_pager.adapter = FragmentViewPagerAdapter(supportFragmentManager)
-        swipe_refresher.setOnRefreshListener {
-            presenter.refreshOffer()
-        }
-        headers_tab_layout.setupWithViewPager(view_pager)
-        for (i in 0 until headers_tab_layout.tabCount) {
-            headers_tab_layout.getTabAt(i)?.icon = resources.getDrawable(R.drawable.ic_hotshotlogo)
-        }
-        play_store.setOnClickListener { startSettingsActivity(it) }
-        share.setOnClickListener { startSettingsActivity(it) }
-        info.setOnClickListener { startSettingsActivity(it) }
-        settings.setOnClickListener { startSettingsActivity(it) }
-    }
-
-    private fun startSettingsActivity(view : View){
-        startActivity(Intent(this, SettingsActivity::class.java))
-    }
-
-    private fun initMenuAnimations(animationId: Int): Animation {
-        var animation = AnimationUtils.loadAnimation(this, animationId)
-        animation.setAnimationListener(object : Animation.AnimationListener {
-            override fun onAnimationStart(animation: Animation) {
-                animationRunning = true
-            }
-
-            override fun onAnimationEnd(animation: Animation) {
-                animationRunning = false
-            }
-
-            override fun onAnimationRepeat(animation: Animation) {}
-        })
-        return animation
-    }
-
-    fun onMenuClickListener(view: View) {
-        if (!animationRunning) {
-            when (isMenuOpen) {
-                false -> {
-                    openMenuAnimation()
-                    view.startAnimation(growMenuAnimation)
-                    isMenuOpen = true
-                }
-                true -> {
-                    closeMenuAnimation()
-                    view.startAnimation(shrinkMenuAnimation)
-                    isMenuOpen = false
-                }
-            }
-        }
-    }
-
-    fun openMenuAnimation(){
-        startMenuItemAnimation(play_store, true)
-        startMenuItemAnimation(share, true)
-        startMenuItemAnimation(info, true)
-        startMenuItemAnimation(settings, true)
-    }
-
-    fun closeMenuAnimation(){
-        startMenuItemAnimation(play_store, false)
-        startMenuItemAnimation(share, false)
-        startMenuItemAnimation(info, false)
-        startMenuItemAnimation(settings, false)
-    }
-
-    fun startMenuItemAnimation(view : View, showMenuItem: Boolean){
-        var animations : Animation
-        when(showMenuItem){
-            true -> animations = AnimationUtils.loadAnimation(this, R.anim.abc_fade_out)
-            false -> animations = AnimationUtils.loadAnimation(this, R.anim.abc_fade_in)
-        }
-        animations.setAnimationListener(getMenuAnimationListener(view, showMenuItem))
-        view.startAnimation(animations)
-    }
-
-    fun getMenuAnimationListener(view : View, showMenuItem : Boolean) : Animation.AnimationListener{
-        return object : Animation.AnimationListener{
-            override fun onAnimationStart(animation: Animation) {
-                if(showMenuItem) view.visibility = View.VISIBLE
-            }
-
-            override fun onAnimationEnd(animation: Animation) {
-                if(!showMenuItem) view.visibility = View.GONE
-            }
-
-            override fun onAnimationRepeat(animation: Animation) {}
-        }
+        initNavigationMenu()
+        mainActivityAnimations.setView(main_content_activity)
     }
 
     override fun onPause() {
         super.onPause()
         presenter.deattachView()
-        unregisterReceiver(broadcastReceiver)
-        registerReceiver(broadcastReceiver, HotShotReceiver.REFRESH_MACIN_ACTIVITY_INTENT_FILTER)
     }
 
     override fun onResume() {
         super.onResume()
+        notificationsManager.clearAllNotification()
         presenter.attachView(this)
-        registerReceiver(broadcastReceiver, HotShotReceiver.REFRESH_MACIN_ACTIVITY_INTENT_FILTER)
+        presenter.setSynchronizationsAndAlarm()
+    }
+
+
+    fun initViewComponents() {
+        blocking_background.setOnClickListener({ onMenuClickListener(it) })
+        menu_and_settings.setOnClickListener { onMenuClickListener(it) }
+        view_pager.adapter = FragmentViewPagerAdapter(supportFragmentManager)
+        swipe_refresher.apply {
+            setOnRefreshListener { presenter.synchronizeHotShots() }
+            setColorSchemeColors(resources.getColor(R.color.windowBackground),
+                    resources.getColor(R.color.colorPrimaryDark), resources.getColor(R.color.windowBackground))
+        }
+        headers_tab_layout.setupWithViewPager(view_pager)
+        for (i in 0 until headers_tab_layout.tabCount) {
+            headers_tab_layout.getTabAt(i)?.icon = resources.getDrawable(R.drawable.ic_hotshotlogo)
+        }
+    }
+
+    private fun initNavigationMenu() {
+        play_store.setOnClickListener { startPlayStoreActivity(it) }
+        share.setOnClickListener { startShareActivity(it) }
+        info.setOnClickListener { startInfoActivity(it) }
+        settings.setOnClickListener { startSettingsActivity(it) }
+    }
+
+    private fun onMenuClickListener(view: View) {
+        mainActivityAnimations.invokeMenuAnimation(view)
+    }
+
+    private fun startSettingsActivity(view: View) {
+        startActivity(Intent(this, SettingsActivity::class.java))
+    }
+
+    private fun startInfoActivity(view: View) {
+        startActivity(Intent(this, SettingsActivity::class.java))
+    }
+
+    private fun startPlayStoreActivity(view: View) {
+        startActivity(Intent(this, SettingsActivity::class.java))
+    }
+
+    private fun startShareActivity(view: View) {
+        startActivity(Intent(this, SettingsActivity::class.java))
     }
 
     override fun refreshViewPagers() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        (view_pager.adapter as FragmentViewPagerAdapter).refreshAllFragments()
+        swipe_refresher.isRefreshing = false
     }
 
     override fun showErrorNotification() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        swipe_refresher.isRefreshing = false
+        val snackbar = Snackbar
+                .make(findViewById(android.R.id.content), getString(R.string.synchronization_error), Snackbar.LENGTH_LONG)
+        snackbar.apply {
+            setAction(getString(R.string.refresh), { presenter.synchronizeHotShots() })
+        }
+        snackbar.show()
     }
 
 }

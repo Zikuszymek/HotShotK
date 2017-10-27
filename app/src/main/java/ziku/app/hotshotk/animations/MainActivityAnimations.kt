@@ -1,5 +1,8 @@
 package ziku.app.hotshotk.animations
 
-class MainActivityAnimations(){
+import android.view.View
 
+interface MainActivityAnimations {
+    fun invokeMenuAnimation(view: View)
+    fun setView(decorView: View)
 }
