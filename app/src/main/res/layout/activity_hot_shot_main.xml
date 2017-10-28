@@ -71,9 +71,10 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:elevation="12dp"
+        android:rotation="45"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_shot" />
+        app:srcCompat="@drawable/ic_arrow_icon" />
 
     <ImageView
         android:id="@+id/settings"
@@ -81,12 +82,12 @@
         android:layout_height="34dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="60dp"
-        android:visibility="gone"
         android:elevation="12dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/menu_icon"
-        app:srcCompat="@android:drawable/btn_star"
-        tools:visibility="visible"/>
+        app:srcCompat="@drawable/ic_settings_logo"
+        tools:visibility="visible" />
 
     <ImageView
         android:id="@+id/info"
@@ -94,12 +95,12 @@
         android:layout_height="34dp"
         android:layout_marginBottom="60dp"
         android:layout_marginEnd="8dp"
-        android:visibility="gone"
         android:elevation="12dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/menu_icon"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@android:drawable/btn_star"
-        tools:visibility="visible"/>
+        app:srcCompat="@drawable/ic_info_icon"
+        tools:visibility="visible" />
 
     <ImageView
         android:id="@+id/play_store"
@@ -107,12 +108,12 @@
         android:layout_height="34dp"
         android:layout_marginBottom="48dp"
         android:layout_marginEnd="82dp"
-        android:visibility="gone"
         android:elevation="12dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@android:drawable/btn_star"
-        tools:visibility="visible"/>
+        app:srcCompat="@drawable/ic_star_icon"
+        tools:visibility="visible" />
 
     <ImageView
         android:id="@+id/share"
@@ -120,11 +121,11 @@
         android:layout_height="34dp"
         android:layout_marginBottom="82dp"
         android:layout_marginEnd="48dp"
-        android:visibility="gone"
         android:elevation="12dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@android:drawable/btn_star"
-        tools:visibility="visible"/>
+        app:srcCompat="@drawable/ic_share_icon"
+        tools:visibility="visible" />
 
 </android.support.constraint.ConstraintLayout>
