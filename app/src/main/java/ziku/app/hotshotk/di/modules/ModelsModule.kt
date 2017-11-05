@@ -2,7 +2,6 @@ package ziku.app.hotshotk.di.modules
 
 import dagger.Binds
 import dagger.Module
-import ziku.app.hotshotk.di.scope.PerActivity
 import ziku.app.hotshotk.providers.*
 import javax.inject.Singleton
 
@@ -24,6 +23,10 @@ abstract class ModelsModule {
     @Binds
     @Singleton
     abstract fun bindSystemInfoProvider(systemInfoProvider: SystemInfoProvider): SystemInfoProvider
+
+    @Binds
+    @Singleton
+    abstract fun bindFirebaseAnalitycsManager(firebaseAnalitycsManager: FirebaseAnalitycsManager) : FirebaseAnalitycsManager
 
     @Binds
     @Singleton

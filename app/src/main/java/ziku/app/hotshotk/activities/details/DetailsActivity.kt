@@ -9,6 +9,7 @@ import kotlinx.android.synthetic.main.activity_details.*
 import ziku.app.hotshotk.R
 import ziku.app.hotshotk.activities.BaseActivity
 import ziku.app.hotshotk.db.entities.HotShot
+import ziku.app.hotshotk.providers.FirebaseAnalitycsManager
 import ziku.app.hotshotk.providers.PriceManager
 import ziku.app.hotshotk.providers.PriceModel
 import javax.inject.Inject
@@ -17,6 +18,8 @@ class DetailsActivity : BaseActivity(), DetailsContractor.View {
 
     @Inject
     lateinit var presenter: DetailsContractor.Presenter
+    @Inject
+    lateinit var firebaseAnalitycsManager: FirebaseAnalitycsManager
 
     val hotShot: HotShot by lazy {
         intent.extras.getParcelable<HotShot>(HOTSHOT_DETAILS)
@@ -29,6 +32,7 @@ class DetailsActivity : BaseActivity(), DetailsContractor.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
+        firebaseAnalitycsManager.openDetailsAboutProduct(hotShot.product_name)
     }
 
     override fun loadDetailsView(priceDetails: PriceModel) {
@@ -73,6 +77,7 @@ class DetailsActivity : BaseActivity(), DetailsContractor.View {
     }
 
     fun goToProductUrl(view : View){
+        firebaseAnalitycsManager.logGoToProduct(hotShot.product_name, hotShot.product_url)
         var intent = Intent(Intent.ACTION_VIEW, Uri.parse(hotShot.product_url))
         startActivity(intent)
     }

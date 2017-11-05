@@ -6,6 +6,10 @@ import timber.log.Timber
 import ziku.app.hotshotk.di.components.DaggerHotShotAppComponent
 import ziku.app.hotshotk.providers.JobShedulerManager
 import javax.inject.Inject
+import com.crashlytics.android.Crashlytics
+import io.fabric.sdk.android.Fabric
+
+
 
 class HotShotApplication : DaggerApplication() {
 
@@ -22,6 +26,7 @@ class HotShotApplication : DaggerApplication() {
 
     override fun onCreate() {
         super.onCreate()
+        Fabric.with(this, Crashlytics())
         Timber.plant(Timber.DebugTree())
     }
 

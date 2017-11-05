@@ -11,6 +11,7 @@ import ziku.app.hotshotk.animations.MainActivityAnimations
 import ziku.app.hotshotk.fragments.hotshot.FragmentViewPagerAdapter
 import javax.inject.Inject
 import android.support.design.widget.Snackbar
+import ziku.app.hotshotk.providers.FirebaseAnalitycsManager
 import ziku.app.hotshotk.providers.NotificationsManager
 import ziku.app.hotshotk.providers.SystemInfoProvider
 
@@ -22,6 +23,15 @@ class HotShotMainActivity : BaseActivity(), HotShotContractor.View {
     lateinit var mainActivityAnimations: MainActivityAnimations
     @Inject
     lateinit var notificationsManager: NotificationsManager
+    @Inject
+    lateinit var firebaseAnalitycsManager : FirebaseAnalitycsManager
+
+    companion object {
+        const val SETTINGS_ACTIVITY = "settings_activity"
+        const val SHARE_ACTIVITY = "share_activity"
+        const val PLAY_STORE_ACTIVITY = "play_store_activity"
+        const val INFO_ACTIVITY = "info_activity"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,18 +81,22 @@ class HotShotMainActivity : BaseActivity(), HotShotContractor.View {
     }
 
     private fun startSettingsActivity(view: View) {
+        firebaseAnalitycsManager.navigationToActivity(SETTINGS_ACTIVITY)
         startActivity(Intent(this, SettingsActivity::class.java))
     }
 
     private fun startInfoActivity(view: View) {
+        firebaseAnalitycsManager.navigationToActivity(INFO_ACTIVITY)
         startActivity(Intent(this, SettingsActivity::class.java))
     }
 
     private fun startPlayStoreActivity(view: View) {
+        firebaseAnalitycsManager.navigationToActivity(PLAY_STORE_ACTIVITY)
         startActivity(Intent(this, SettingsActivity::class.java))
     }
 
     private fun startShareActivity(view: View) {
+        firebaseAnalitycsManager.navigationToActivity(SHARE_ACTIVITY)
         startActivity(Intent(this, SettingsActivity::class.java))
     }
 
